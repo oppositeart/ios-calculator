@@ -9,13 +9,17 @@ const btnArr: Array<string[]> = [
     ['0', ',', '=']
 ];
 
-const InputSection: React.FC = () => {
+type PropsType = {
+    clickHandler: (value: number) => any
+}
+
+const InputSection: React.FC<PropsType> = ({clickHandler}) => {
     return (
         <div>
             {btnArr.map(line => (
                 <div>
                     {line.map(txt => (
-                        <button>{txt}</button>
+                        <button onClick={() => clickHandler(parseInt(txt))}>{txt}</button>
                     ))}
                 </div>
             ))}

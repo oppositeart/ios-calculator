@@ -1,9 +1,13 @@
 import React from 'react';
 
-const OutputSection: React.FC = () => {
+type PropsType = {
+    output: number
+}
+
+const OutputSection: React.FC<PropsType> = ({output}) => {
     return (
         <div>
-            0
+            {output}
         </div>
     );
 }

@@ -1,0 +1,9 @@
+export const createReducer = <T>(initialState: T, handlers: any) => {
+    return (state = initialState, action: any) => {
+        if (handlers.hasOwnProperty(action.type)) {
+            return handlers[action.type](state, action)
+        } else {
+            return state
+        }
+    }
+}
