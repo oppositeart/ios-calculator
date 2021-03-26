@@ -1,8 +1,10 @@
 import {combineReducers, compose, createStore} from 'redux';
 import mainReducer from './reducers/mainReducer';
+import btnReducer from './reducers/btnReducer';
 
 const rootReducer = combineReducers({
-    mainReducer
+    mainReducer,
+    btnReducer
 })
 
 // Chrome Redux devtool

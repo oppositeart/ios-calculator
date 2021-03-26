@@ -1,28 +1,35 @@
 import React from 'react';
-
-const btnArr: Array<string[]> = [
-    ['AC', '+/-', '%', '÷'],
-    ['mc', 'mr', 'm-', 'm+'],
-    ['7', '8', '9', '×'],
-    ['4', '5', '6', '-'],
-    ['1', '2', '3', '+'],
-    ['0', ',', '=']
-];
+import {BtnObjType} from '../../store/reducers/btnReducer';
 
 type PropsType = {
-    clickHandler: (value: number) => any
+    buttons: BtnObjType[],
+    // TODO: Choose type
+    handleClick: (action: any) => void
 }
 
-const InputSection: React.FC<PropsType> = ({clickHandler}) => {
+const InputSection: React.FC<PropsType> = ({buttons, handleClick}) => {
+    const sortEl = (elArray: BtnObjType[], numInRow: number): JSX.Element[] => {
+        const container:JSX.Element[] = [];
+        let row:JSX.Element[] = [];
+
+        elArray.forEach((btn: BtnObjType, index: number, arr): void => {
+            const i = index + 1;
+            row.push(
+                <button key={btn.name} onClick={() => handleClick(btn.action)}>{btn.name}</button>
+            );
+            if (i % numInRow === 0 || i === arr.length) {
+                container.push(
+                    <div key={i + btn.name}>{row}</div>
+                );
+                row = [];
+            }
+        })
+        return container;
+    }
+
     return (
         <div>
-            {btnArr.map(line => (
-                <div>
-                    {line.map(txt => (
-                        <button onClick={() => clickHandler(parseInt(txt))}>{txt}</button>
-                    ))}
-                </div>
-            ))}
+            {sortEl(buttons, 4)}
         </div>
     );
 }
