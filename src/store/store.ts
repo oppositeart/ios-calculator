@@ -2,7 +2,12 @@ import {combineReducers, compose, createStore} from 'redux';
 import mainReducer from './reducers/mainReducer';
 import btnReducer from './reducers/btnReducer';
 
-const rootReducer = combineReducers({
+type ReducerType = {
+    mainReducer: ReturnType<typeof mainReducer>,
+    btnReducer: ReturnType<typeof btnReducer>,
+};
+
+const rootReducer = combineReducers<ReducerType>({
     mainReducer,
     btnReducer
 })
