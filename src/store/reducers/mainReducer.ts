@@ -29,12 +29,14 @@ const changeValue = (state: InitialStateType, action: BtnPressActionType): Initi
 }
 const actionMath = (state: InitialStateType, action: any): InitialStateType => {
     const currentAction = state.previewAction === BTN_PRESS || state.previewAction === ACTION_RESULT ? action.type : state.previewAction;
-    const valueObj:ValueObjType = {value: state.currentValue, action: currentAction};
+    // Create object with current value and math action
+    const valueObj:ValueObjType = {value: state.currentValue, action: currentAction}
+    // If previous action was '=' reset array of values, else push object inside array
     const valuesArr:ValueObjType[] = state.previewAction === ACTION_RESULT ? [valueObj] : [...state.values, valueObj];
-    debugger;
     return {
         ...state,
         values: valuesArr,
+        // Calculates values inside of values array
         currentValue: mathCalculation(valuesArr),
         previewAction: action.type
     }
@@ -42,6 +44,7 @@ const actionMath = (state: InitialStateType, action: any): InitialStateType => {
 const actionResult = (state: InitialStateType, action: any): InitialStateType => {
     return {
         ...state,
+        // Calculates values inside of values array
         currentValue: mathCalculation([...state.values, {value: state.currentValue, action: state.previewAction}]),
         previewAction: action.type
     }

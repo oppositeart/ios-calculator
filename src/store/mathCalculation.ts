@@ -14,7 +14,6 @@ const mathOperations = (a:number, action:string, b: number):number => {
 
 const mathCalculation = (values: ValueObjType[]): number => {
     let result = values[0].value;
-    debugger;
     for (let i = 1; i < values.length; i++) {
         result = mathOperations(result, values[i - 1].action, values[i].value);
     }
