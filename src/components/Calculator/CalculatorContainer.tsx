@@ -33,7 +33,7 @@ const CalculatorContainer: React.FC<PropsType> = ({output, buttons, dispatcherFn
 }
 
 const mapStateToProps = (state: GlobalStateType): StatePropsType => ({
-    output: state.mainReducer.value,
+    output: state.mainReducer.currentValue,
     buttons: state.btnReducer.buttons
 })
 
