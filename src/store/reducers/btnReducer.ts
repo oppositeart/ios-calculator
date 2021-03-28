@@ -87,30 +87,32 @@ const createBtnClearStageReducer = (btnStage: ClearBtnStageType): (state: Initia
         }
     }
 }
-
-const clearPressState = (state: InitialStateType): InitialStateType => {
-    if (!state.pressedBtnName) {
-        return {...state}
-    }
-    return {
-        ...state,
-        buttons: {
-            ...state.buttons,
-            [state.pressedBtnName]: {
-                ...state.buttons[state.pressedBtnName],
-                isPressed: false
-            }
-        },
-        pressedBtnName: ''
+const withClearPressState = (reducer?: ((state: InitialStateType) => InitialStateType)) => {
+    return (state: InitialStateType): InitialStateType => {
+        const newState = reducer ? {...reducer(state)} : {...state};
+        if (!state.pressedBtnName) {
+            return {...newState}
+        }
+        return {
+            ...newState,
+            buttons: {
+                ...newState.buttons,
+                [newState.pressedBtnName]: {
+                    ...newState.buttons[newState.pressedBtnName],
+                    isPressed: false
+                }
+            },
+            pressedBtnName: ''
+        }
     }
 }
 
 export default createReducer<InitialStateType>(initialState, {
-    [ACTION_NUM_PRESS]: createBtnClearStageReducer(1),
+    [ACTION_NUM_PRESS]: withClearPressState(createBtnClearStageReducer(1)),
     [ACTION_ADD]: createPressActionReducer('btnAdd'),
     [ACTION_SUBTRACT]: createPressActionReducer('btnSubtract'),
     [ACTION_MULTIPLY]: createPressActionReducer('btnMultiply'),
     [ACTION_DIVIDE]: createPressActionReducer('btnDivide'),
-    [ACTION_RESULT]: clearPressState,
+    [ACTION_RESULT]: withClearPressState(),
     [ACTION_CLEAR]: createBtnClearStageReducer(0)
 })
