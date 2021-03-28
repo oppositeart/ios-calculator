@@ -1,12 +1,18 @@
 import {
-    ACTION_ADD,
+    ACTION_ADD, ACTION_CLEAR,
     ACTION_DIVIDE,
-    ACTION_MULTIPLY,
+    ACTION_MULTIPLY, ACTION_NUM_PRESS,
     ACTION_PERCENT,
     ACTION_RESULT,
-    ACTION_SUBTRACT
+    ACTION_SUBTRACT, ACTION_TOGGLE
 } from '../actions/operationBtnActions';
+import {NumBtnValueType} from '../btnObjects';
 
+
+export type ActionNumBtnPressACType = {
+    type: typeof ACTION_NUM_PRESS,
+    value: NumBtnValueType
+}
 export type ActionAddACType = {
     type: typeof ACTION_ADD
 }
@@ -25,7 +31,17 @@ export type ActionPercentACType = {
 export type ActionResultACType = {
     type: typeof ACTION_RESULT
 }
+export type ActionToggleACType = {
+    type: typeof ACTION_TOGGLE
+}
+export type ActionClearACType = {
+    type: typeof ACTION_CLEAR
+}
 
+export const actionNumPressAC = (value: NumBtnValueType): ActionNumBtnPressACType => ({
+    type: ACTION_NUM_PRESS,
+    value
+})
 export const actionAddAC = (): ActionAddACType => ({
     type: ACTION_ADD
 })
@@ -43,4 +59,10 @@ export const actionPercentAC = (): ActionPercentACType => ({
 })
 export const actionResultAC = (): ActionResultACType => ({
     type: ACTION_RESULT
+})
+export const actionToggleAC = (): ActionToggleACType => ({
+    type: ACTION_TOGGLE
+})
+export const actionClearAC = (): ActionClearACType => ({
+    type: ACTION_CLEAR
 })

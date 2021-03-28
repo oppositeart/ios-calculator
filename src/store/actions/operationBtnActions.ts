@@ -1,6 +1,9 @@
+export const ACTION_NUM_PRESS = 'react-app/numBtnActions/ACTION_NUM_PRESS';
 export const ACTION_ADD = 'react-app/actionBtnActions/ACTION_ADD';
 export const ACTION_SUBTRACT = 'react-app/actionBtnActions/ACTION_SUBTRACT';
 export const ACTION_MULTIPLY = 'react-app/actionBtnActions/ACTION_MULTIPLY';
 export const ACTION_DIVIDE = 'react-app/actionBtnActions/ACTION_DIVIDE';
 export const ACTION_PERCENT = 'react-app/actionBtnActions/ACTION_PERCENT';
 export const ACTION_RESULT = 'react-app/actionBtnActions/ACTION_RESULT';
+export const ACTION_TOGGLE = 'react-app/actionBtnActions/ACTION_TOGGLE';
+export const ACTION_CLEAR = 'react-app/actionBtnActions/ACTION_CLEAR';

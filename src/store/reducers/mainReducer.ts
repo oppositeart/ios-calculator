@@ -1,15 +1,17 @@
 import {createReducer} from '../createReducer';
-import {BTN_PRESS} from '../actions/numBtnActions';
 import {
-    ACTION_ADD,
+    ACTION_ADD, ACTION_CLEAR,
     ACTION_DIVIDE,
-    ACTION_MULTIPLY, ACTION_PERCENT,
+    ACTION_MULTIPLY, ACTION_NUM_PRESS, ACTION_PERCENT,
     ACTION_RESULT,
-    ACTION_SUBTRACT
+    ACTION_SUBTRACT, ACTION_TOGGLE
 } from '../actions/operationBtnActions';
 import mathCalculation from '../mathCalculation';
-import {BtnPressActionACType} from '../actionCreators/numBtnAC';
-import {ActionPercentACType, ActionResultACType} from '../actionCreators/operationBtnAC';
+import {
+    ActionNumBtnPressACType,
+    ActionPercentACType,
+    ActionResultACType
+} from '../actionCreators/operationBtnAC';
 
 export type ValueObjType = {
     value: number,
@@ -19,20 +21,23 @@ export type ValueObjType = {
 type InitialStateType = {
     values: Array<ValueObjType>,
     currentValue: number,
-    previousAction: string
+    previousAction: string,
+    clearValueStage: 0 | 1 | 2
 }
 
 const initialState: InitialStateType = {
     values: [],
     currentValue: 0,
-    previousAction: BTN_PRESS
+    previousAction: ACTION_NUM_PRESS,
+    clearValueStage: 0
 }
 
-const changeValue = (state: InitialStateType, action: BtnPressActionACType): InitialStateType => {
+const changeValue = (state: InitialStateType, action: ActionNumBtnPressACType): InitialStateType => {
     return {
         ...state,
         currentValue: state.previousAction === action.type ? state.currentValue * 10 + action.value : action.value,
-        previousAction: action.type
+        previousAction: action.type,
+        clearValueStage: 2
     };
 }
 const actionMath = (state: InitialStateType, action: any): InitialStateType => {
@@ -41,7 +46,7 @@ const actionMath = (state: InitialStateType, action: any): InitialStateType => {
         return {...state}
     }
     // If action is different from previous and not input digits or '=', then change action type to current
-    if (state.previousAction !== BTN_PRESS && state.previousAction !== ACTION_RESULT) {
+    if (state.previousAction !== ACTION_NUM_PRESS && state.previousAction !== ACTION_RESULT) {
         let a = [...state.values]
         // If action was ACTION_PERCENT length could be 0
         if (a.length > 1) {
@@ -53,7 +58,7 @@ const actionMath = (state: InitialStateType, action: any): InitialStateType => {
             previousAction: action.type
         }
     } else {
-        const currentAction = state.previousAction === BTN_PRESS || state.previousAction === ACTION_RESULT ? action.type : state.previousAction;
+        const currentAction = state.previousAction === ACTION_NUM_PRESS || state.previousAction === ACTION_RESULT ? action.type : state.previousAction;
         // Create object with current value and math action
         const valueObj: ValueObjType = {value: state.currentValue, action: currentAction}
         // If previous action was '=' reset array of values, else push object inside array
@@ -70,7 +75,7 @@ const actionMath = (state: InitialStateType, action: any): InitialStateType => {
 }
 const actionPercent = (state: InitialStateType, action: ActionPercentACType): InitialStateType => {
     // If action is the same as previous or value hasn't changed skip
-    if (state.previousAction === action.type || state.previousAction !== BTN_PRESS) {
+    if (state.previousAction === action.type || state.previousAction !== ACTION_NUM_PRESS) {
         return {...state}
     }
     return {
@@ -88,13 +93,40 @@ const actionResult = (state: InitialStateType, action: ActionResultACType): Init
         previousAction: action.type
     }
 }
+const actionToggle = (state: InitialStateType): InitialStateType => {
+    return {
+        ...state,
+        // Invert value
+        currentValue: state.currentValue * -1
+    }
+}
+const actionClear = (state: InitialStateType): InitialStateType => {
+    console.log(state.clearValueStage);
+    if (state.clearValueStage === 0) {
+        return {...state}
+    }
+    if (state.clearValueStage === 1) {
+        return {
+            ...state,
+            values: [],
+            clearValueStage: 0
+        }
+    }
+    return {
+        ...state,
+        currentValue: 0,
+        clearValueStage: 1
+    }
+}
 
 export default createReducer<InitialStateType>(initialState, {
-    [BTN_PRESS]: changeValue,
+    [ACTION_NUM_PRESS]: changeValue,
     [ACTION_ADD]: actionMath,
     [ACTION_SUBTRACT]: actionMath,
     [ACTION_MULTIPLY]: actionMath,
     [ACTION_DIVIDE]: actionMath,
     [ACTION_PERCENT]: actionPercent,
-    [ACTION_RESULT]: actionResult
+    [ACTION_RESULT]: actionResult,
+    [ACTION_TOGGLE]: actionToggle,
+    [ACTION_CLEAR]: actionClear
 })

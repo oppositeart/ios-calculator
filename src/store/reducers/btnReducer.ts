@@ -1,12 +1,16 @@
 import {createReducer} from '../createReducer';
+import {ACTION_CLEAR} from '../actions/operationBtnActions';
 import {
-    actionAddAC,
-    actionDivideAC,
-    actionMultiplyAC, actionPercentAC,
-    actionResultAC,
-    actionSubtractAC
-} from '../actionCreators/operationBtnAC';
-import {btnPressAC} from '../actionCreators/numBtnAC';
+    btnAdd,
+    btnClear,
+    btnDivide, btnMemClear, btnMemMinus, btnMemPlus, btnMemRead,
+    btnMultiply,
+    btnPercent,
+    btnResult,
+    btnSubtract,
+    btnToggle,
+    getBtnNum
+} from '../btnObjects';
 
 export type BtnObjType = {
     name: string,
@@ -20,15 +24,20 @@ type InitialStateType = {
 
 const initialState: InitialStateType = {
     buttons: [
-        {name: 'AC', action: null}, {name: '+/-', action: null}, {name: '%', action: actionPercentAC()}, {name: '÷', action: actionDivideAC()},
-        {name: 'mc', action: null}, {name: 'mr', action: null}, {name: 'm-', action: null}, {name: 'm+', action: null},
-        {name: '7', action: btnPressAC(7)}, {name: '8', action: btnPressAC(8)}, {name: '9', action: btnPressAC(9)}, {name: '×', action: actionMultiplyAC()},
-        {name: '4', action: btnPressAC(4)}, {name: '5', action: btnPressAC(5)}, {name: '6', action: btnPressAC(6)}, {name: '-', action: actionSubtractAC()},
-        {name: '1', action: btnPressAC(1)}, {name: '2', action: btnPressAC(2)}, {name: '3', action: btnPressAC(3)}, {name: '+', action: actionAddAC()},
-        {name: '0', action: btnPressAC(0)}, {name: ',', action: null}, {name: '=', action: actionResultAC()}
+        btnClear, btnToggle, btnPercent, btnDivide,
+        btnMemClear, btnMemRead, btnMemMinus, btnMemPlus,
+        getBtnNum(7), getBtnNum(8), getBtnNum(9), btnMultiply,
+        getBtnNum(4), getBtnNum(5), getBtnNum(6), btnSubtract,
+        getBtnNum(1), getBtnNum(2), getBtnNum(3), btnAdd,
+        getBtnNum(0), {name: ',', action: null}, btnResult
     ]
+}
+const actionClear = (state: InitialStateType): InitialStateType => {
+    return {
+        ...state
+    }
 }
 
 export default createReducer<InitialStateType>(initialState, {
-
+    [ACTION_CLEAR]: actionClear
 })
