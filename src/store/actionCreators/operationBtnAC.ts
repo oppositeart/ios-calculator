@@ -2,6 +2,7 @@ import {
     ACTION_ADD,
     ACTION_DIVIDE,
     ACTION_MULTIPLY,
+    ACTION_PERCENT,
     ACTION_RESULT,
     ACTION_SUBTRACT
 } from '../actions/operationBtnActions';
@@ -18,6 +19,9 @@ export type ActionMultiplyACType = {
 export type ActionDivideACType = {
     type: typeof ACTION_DIVIDE
 }
+export type ActionPercentACType = {
+    type: typeof ACTION_PERCENT
+}
 export type ActionResultACType = {
     type: typeof ACTION_RESULT
 }
@@ -33,6 +37,9 @@ export const actionMultiplyAC = (): ActionMultiplyACType => ({
 })
 export const actionDivideAC = (): ActionDivideACType => ({
     type: ACTION_DIVIDE
+})
+export const actionPercentAC = (): ActionPercentACType => ({
+    type: ACTION_PERCENT
 })
 export const actionResultAC = (): ActionResultACType => ({
     type: ACTION_RESULT

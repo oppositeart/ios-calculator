@@ -3,12 +3,13 @@ import {BTN_PRESS} from '../actions/numBtnActions';
 import {
     ACTION_ADD,
     ACTION_DIVIDE,
-    ACTION_MULTIPLY,
+    ACTION_MULTIPLY, ACTION_PERCENT,
     ACTION_RESULT,
     ACTION_SUBTRACT
 } from '../actions/operationBtnActions';
 import mathCalculation from '../mathCalculation';
 import {BtnPressActionACType} from '../actionCreators/numBtnAC';
+import {ActionPercentACType, ActionResultACType} from '../actionCreators/operationBtnAC';
 
 export type ValueObjType = {
     value: number,
@@ -35,14 +36,17 @@ const changeValue = (state: InitialStateType, action: BtnPressActionACType): Ini
     };
 }
 const actionMath = (state: InitialStateType, action: any): InitialStateType => {
-    // If the same action as previous skip
+    // If action is the same as previous skip
     if (state.previousAction === action.type) {
         return {...state}
     }
     // If action is different from previous and not input digits or '=', then change action type to current
     if (state.previousAction !== BTN_PRESS && state.previousAction !== ACTION_RESULT) {
-        let a = [...state.values];
-        a[a.length - 1] = {value: a[a.length - 1].value, action: action.type}
+        let a = [...state.values]
+        // If action was ACTION_PERCENT length could be 0
+        if (a.length > 1) {
+            a[a.length - 1] = {value: a[a.length - 1].value, action: action.type}
+        }
         return {
             ...state,
             values: [...a],
@@ -64,7 +68,19 @@ const actionMath = (state: InitialStateType, action: any): InitialStateType => {
         }
     }
 }
-const actionResult = (state: InitialStateType, action: any): InitialStateType => {
+const actionPercent = (state: InitialStateType, action: ActionPercentACType): InitialStateType => {
+    // If action is the same as previous or value hasn't changed skip
+    if (state.previousAction === action.type || state.previousAction !== BTN_PRESS) {
+        return {...state}
+    }
+    return {
+        ...state,
+        currentValue: (state.currentValue / 100) *
+            (state.values.length > 1 ? state.values[state.values.length - 1].value : 1),
+        previousAction: action.type
+    }
+}
+const actionResult = (state: InitialStateType, action: ActionResultACType): InitialStateType => {
     return {
         ...state,
         // Calculates values inside of the values array
@@ -79,5 +95,6 @@ export default createReducer<InitialStateType>(initialState, {
     [ACTION_SUBTRACT]: actionMath,
     [ACTION_MULTIPLY]: actionMath,
     [ACTION_DIVIDE]: actionMath,
+    [ACTION_PERCENT]: actionPercent,
     [ACTION_RESULT]: actionResult
 })

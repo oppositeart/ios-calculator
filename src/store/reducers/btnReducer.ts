@@ -2,7 +2,7 @@ import {createReducer} from '../createReducer';
 import {
     actionAddAC,
     actionDivideAC,
-    actionMultiplyAC,
+    actionMultiplyAC, actionPercentAC,
     actionResultAC,
     actionSubtractAC
 } from '../actionCreators/operationBtnAC';
@@ -20,7 +20,7 @@ type InitialStateType = {
 
 const initialState: InitialStateType = {
     buttons: [
-        {name: 'AC', action: null}, {name: '+/-', action: null}, {name: '%', action: null}, {name: '÷', action: actionDivideAC()},
+        {name: 'AC', action: null}, {name: '+/-', action: null}, {name: '%', action: actionPercentAC()}, {name: '÷', action: actionDivideAC()},
         {name: 'mc', action: null}, {name: 'mr', action: null}, {name: 'm-', action: null}, {name: 'm+', action: null},
         {name: '7', action: btnPressAC(7)}, {name: '8', action: btnPressAC(8)}, {name: '9', action: btnPressAC(9)}, {name: '×', action: actionMultiplyAC()},
         {name: '4', action: btnPressAC(4)}, {name: '5', action: btnPressAC(5)}, {name: '6', action: btnPressAC(6)}, {name: '-', action: actionSubtractAC()},
