@@ -5,7 +5,7 @@ import {
     ACTION_PERCENT,
     ACTION_RESULT,
     ACTION_SUBTRACT, ACTION_TOGGLE
-} from '../actions/operationBtnActions';
+} from '../actions/buttonsActions';
 import {NumBtnValueType} from '../btnObjects';
 
 

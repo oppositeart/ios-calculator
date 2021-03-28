@@ -2,12 +2,11 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {GlobalStateType} from '../../store/store';
 import OutputSection from '../OutputSection/OutputSection';
-import InputSection from '../InputSection/InputSection';
-import {BtnObjType} from '../../store/reducers/btnReducer';
+import ButtonsSection from '../ButtonsSection/ButtonsSection';
 
 type StatePropsType = {
     output: number,
-    buttons: BtnObjType[]
+    buttons: any
 }
 
 type DispatchPropsType = {
@@ -27,7 +26,7 @@ const CalculatorContainer: React.FC<PropsType> = ({output, buttons, dispatcherFn
     return (
         <div>
             <OutputSection output={output} />
-            <InputSection buttons={buttons} handleClick={handleClick} />
+            <ButtonsSection buttons={buttons} handleClick={handleClick} />
         </div>
     );
 }

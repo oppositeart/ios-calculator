@@ -1,8 +1,14 @@
 import {createReducer} from '../createReducer';
-import {ACTION_CLEAR} from '../actions/operationBtnActions';
+import {
+    ACTION_ADD,
+    ACTION_CLEAR, ACTION_DIVIDE,
+    ACTION_MULTIPLY,
+    ACTION_NUM_PRESS, ACTION_RESULT,
+    ACTION_SUBTRACT
+} from '../actions/buttonsActions';
 import {
     btnAdd,
-    btnClear,
+    btnClear, btnComma,
     btnDivide, btnMemClear, btnMemMinus, btnMemPlus, btnMemRead,
     btnMultiply,
     btnPercent,
@@ -12,32 +18,99 @@ import {
     getBtnNum
 } from '../btnObjects';
 
-export type BtnObjType = {
-    name: string,
-    // TODO: Choose type
-    action: any
-}
+type ClearBtnStageType = 0 | 1;
 
 type InitialStateType = {
-    buttons: BtnObjType[]
+    buttons: {[x: string]: any},
+    clearBtnStage: ClearBtnStageType,
+    pressedBtnName: string
 }
 
 const initialState: InitialStateType = {
-    buttons: [
+    buttons: {
         btnClear, btnToggle, btnPercent, btnDivide,
         btnMemClear, btnMemRead, btnMemMinus, btnMemPlus,
-        getBtnNum(7), getBtnNum(8), getBtnNum(9), btnMultiply,
-        getBtnNum(4), getBtnNum(5), getBtnNum(6), btnSubtract,
-        getBtnNum(1), getBtnNum(2), getBtnNum(3), btnAdd,
-        getBtnNum(0), {name: ',', action: null}, btnResult
-    ]
+        btnNum7: getBtnNum(7), btnNum8: getBtnNum(8), btnNum9: getBtnNum(9), btnMultiply,
+        btnNum4: getBtnNum(4), btnNum5: getBtnNum(5), btnNum6: getBtnNum(6), btnSubtract,
+        btnNum1: getBtnNum(1), btnNum2: getBtnNum(2), btnNum3: getBtnNum(3), btnAdd,
+        btnNum0: getBtnNum(0), btnComma, btnResult
+    },
+    clearBtnStage: 0,
+    pressedBtnName: ''
 }
-const actionClear = (state: InitialStateType): InitialStateType => {
+
+const createPressActionReducer = (btnName: string): (state: InitialStateType) => InitialStateType => {
+    return (state: InitialStateType): InitialStateType => {
+        if (state.pressedBtnName === btnName) {
+            return {...state}
+        }
+        let buttonsObj = {
+            ...state.buttons,
+            [btnName]:  {
+                ...state.buttons[btnName],
+                isPressed: true
+            }
+        }
+        if (state.pressedBtnName) {
+            buttonsObj = {
+                ...buttonsObj,
+                [state.pressedBtnName]:  {
+                    ...state.buttons[state.pressedBtnName],
+                    isPressed: false
+                }
+            }
+        }
+        return {
+            ...state,
+            buttons: {
+                ...buttonsObj
+            },
+            pressedBtnName: btnName
+        }
+    }
+}
+const createBtnClearStageReducer = (btnStage: ClearBtnStageType): (state: InitialStateType) => InitialStateType => {
+    return (state: InitialStateType): InitialStateType => {
+        if (state.clearBtnStage === btnStage) {
+            return {...state}
+        }
+        return {
+            ...state,
+            buttons: {
+                ...state.buttons,
+                btnClear: {
+                    ...state.buttons.btnClear,
+                    name: state.buttons.btnClear.nameArr[btnStage]
+                }
+            },
+            clearBtnStage: btnStage
+        }
+    }
+}
+
+const clearPressState = (state: InitialStateType): InitialStateType => {
+    if (!state.pressedBtnName) {
+        return {...state}
+    }
     return {
-        ...state
+        ...state,
+        buttons: {
+            ...state.buttons,
+            [state.pressedBtnName]: {
+                ...state.buttons[state.pressedBtnName],
+                isPressed: false
+            }
+        },
+        pressedBtnName: ''
     }
 }
 
 export default createReducer<InitialStateType>(initialState, {
-    [ACTION_CLEAR]: actionClear
+    [ACTION_NUM_PRESS]: createBtnClearStageReducer(1),
+    [ACTION_ADD]: createPressActionReducer('btnAdd'),
+    [ACTION_SUBTRACT]: createPressActionReducer('btnSubtract'),
+    [ACTION_MULTIPLY]: createPressActionReducer('btnMultiply'),
+    [ACTION_DIVIDE]: createPressActionReducer('btnDivide'),
+    [ACTION_RESULT]: clearPressState,
+    [ACTION_CLEAR]: createBtnClearStageReducer(0)
 })

@@ -5,13 +5,13 @@ import {
     ACTION_MULTIPLY, ACTION_NUM_PRESS, ACTION_PERCENT,
     ACTION_RESULT,
     ACTION_SUBTRACT, ACTION_TOGGLE
-} from '../actions/operationBtnActions';
+} from '../actions/buttonsActions';
 import mathCalculation from '../mathCalculation';
 import {
     ActionNumBtnPressACType,
     ActionPercentACType,
     ActionResultACType
-} from '../actionCreators/operationBtnAC';
+} from '../actionCreators/buttonsAC';
 
 export type ValueObjType = {
     value: number,
@@ -58,11 +58,15 @@ const actionMath = (state: InitialStateType, action: any): InitialStateType => {
             previousAction: action.type
         }
     } else {
-        const currentAction = state.previousAction === ACTION_NUM_PRESS || state.previousAction === ACTION_RESULT ? action.type : state.previousAction;
+        const currentAction = state.previousAction === ACTION_NUM_PRESS || state.previousAction === ACTION_RESULT
+            ? action.type
+            : state.previousAction;
         // Create object with current value and math action
         const valueObj: ValueObjType = {value: state.currentValue, action: currentAction}
         // If previous action was '=' reset array of values, else push object inside array
-        const valuesArr: ValueObjType[] = state.previousAction === ACTION_RESULT ? [valueObj] : [...state.values, valueObj];
+        const valuesArr: ValueObjType[] = state.previousAction === ACTION_RESULT
+            ? [valueObj]
+            : [...state.values, valueObj];
         //const valuesArr: ValueObjType[] =[...state.values, valueObj];
         return {
             ...state,

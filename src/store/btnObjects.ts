@@ -3,7 +3,7 @@ import {
     ActionNumBtnPressACType,
     actionNumPressAC, actionPercentAC, actionResultAC,
     actionSubtractAC, actionToggleAC
-} from './actionCreators/operationBtnAC';
+} from './actionCreators/buttonsAC';
 
 export type NumBtnObjType = {
     name: string,
@@ -11,11 +11,12 @@ export type NumBtnObjType = {
 }
 export type OperationBtnObjType = {
     name: string,
-    action: any
+    action: any,
+    isPressed?: boolean
 }
 export type ClearBtnObjType = {
     name: string,
-    altName: string,
+    nameArr: string[],
     action: ActionClearACType
 }
 
@@ -29,19 +30,23 @@ export const getBtnNum = (value: NumBtnValueType): NumBtnObjType => {
 }
 export const btnAdd: OperationBtnObjType = {
     name: '+',
-    action: actionAddAC()
+    action: actionAddAC(),
+    isPressed: false
 }
 export const btnSubtract: OperationBtnObjType = {
     name: '-',
-    action: actionSubtractAC()
+    action: actionSubtractAC(),
+    isPressed: false
 }
 export const btnMultiply: OperationBtnObjType = {
     name: '×',
-    action: actionMultiplyAC()
+    action: actionMultiplyAC(),
+    isPressed: false
 }
 export const btnDivide: OperationBtnObjType = {
     name: '÷',
-    action: actionDivideAC()
+    action: actionDivideAC(),
+    isPressed: false
 }
 export const btnPercent: OperationBtnObjType = {
     name: '%',
@@ -57,8 +62,12 @@ export const btnToggle: OperationBtnObjType = {
 }
 export const btnClear: ClearBtnObjType = {
     name: 'AC',
-    altName: 'C',
+    nameArr: ['AC', 'C'],
     action: actionClearAC()
+}
+export const btnComma: OperationBtnObjType = {
+    name: ',',
+    action: null
 }
 export const btnMemClear: OperationBtnObjType = {
     name: 'mc',

@@ -1,4 +1,4 @@
-import {ACTION_ADD, ACTION_DIVIDE, ACTION_MULTIPLY, ACTION_SUBTRACT} from './actions/operationBtnActions';
+import {ACTION_ADD, ACTION_DIVIDE, ACTION_MULTIPLY, ACTION_SUBTRACT} from './actions/buttonsActions';
 import {ValueObjType} from './reducers/mainReducer';
 
 const mathOperations = (a: number, action: string, b: number): number => {
