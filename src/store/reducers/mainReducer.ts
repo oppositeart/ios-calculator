@@ -86,6 +86,10 @@ const actionPercent = (state: InitialStateType, action: ActionPercentACType): In
     }
 }
 const actionResult = (state: InitialStateType, action: ActionResultACType): InitialStateType => {
+    // If action is the same as previous skip
+    if (state.previousAction === action.type) {
+        return {...state}
+    }
     return {
         ...state,
         // Calculates values inside of the values array
