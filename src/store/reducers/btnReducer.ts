@@ -18,7 +18,7 @@ import {
     getBtnNum
 } from '../btnObjects';
 
-type ClearBtnStageType = 0 | 1;
+export type ClearBtnStageType = 0 | 1;
 
 type InitialStateType = {
     buttons: {[x: string]: any},
@@ -38,7 +38,7 @@ const initialState: InitialStateType = {
     clearBtnStage: 0,
     pressedBtnName: ''
 }
-
+// Change pressed state of action buttons
 const createPressActionReducer = (btnName: string): (state: InitialStateType) => InitialStateType => {
     return (state: InitialStateType): InitialStateType => {
         if (state.pressedBtnName === btnName) {
@@ -69,12 +69,13 @@ const createPressActionReducer = (btnName: string): (state: InitialStateType) =>
         }
     }
 }
+// Controls AC/C button state
 const createBtnClearStageReducer = (btnStage: ClearBtnStageType): (state: InitialStateType) => InitialStateType => {
     return (state: InitialStateType): InitialStateType => {
         if (state.clearBtnStage === btnStage) {
             return {...state}
         }
-        return {
+        let newState = {
             ...state,
             buttons: {
                 ...state.buttons,
@@ -85,8 +86,22 @@ const createBtnClearStageReducer = (btnStage: ClearBtnStageType): (state: Initia
             },
             clearBtnStage: btnStage
         }
+        if (btnStage === 0 && state.pressedBtnName) {
+            newState = {
+                ...newState,
+                buttons: {
+                    ...newState.buttons,
+                    [state.pressedBtnName]: {
+                        ...state.buttons[state.pressedBtnName],
+                        isPressed: true
+                    }
+                }
+            }
+        }
+        return {...newState}
     }
 }
+// Wrap reducer or use just as reducer to add ability to clear pressed btn state
 const withClearPressState = (reducer?: ((state: InitialStateType) => InitialStateType)) => {
     return (state: InitialStateType): InitialStateType => {
         const newState = reducer ? {...reducer(state)} : {...state};
@@ -101,8 +116,7 @@ const withClearPressState = (reducer?: ((state: InitialStateType) => InitialStat
                     ...newState.buttons[newState.pressedBtnName],
                     isPressed: false
                 }
-            },
-            pressedBtnName: ''
+            }
         }
     }
 }

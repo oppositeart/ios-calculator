@@ -12,6 +12,7 @@ import {
     ActionPercentACType,
     ActionResultACType
 } from '../actionCreators/buttonsAC';
+import {ClearBtnStageType} from './btnReducer';
 
 export type ValueObjType = {
     value: number,
@@ -22,7 +23,7 @@ type InitialStateType = {
     values: Array<ValueObjType>,
     currentValue: number,
     previousAction: string,
-    clearValueStage: 0 | 1 | 2
+    clearValueStage: ClearBtnStageType
 }
 
 const initialState: InitialStateType = {
@@ -37,7 +38,7 @@ const changeValue = (state: InitialStateType, action: ActionNumBtnPressACType): 
         ...state,
         currentValue: state.previousAction === action.type ? state.currentValue * 10 + action.value : action.value,
         previousAction: action.type,
-        clearValueStage: 2
+        clearValueStage: 1
     };
 }
 const actionMath = (state: InitialStateType, action: any): InitialStateType => {
@@ -111,19 +112,17 @@ const actionToggle = (state: InitialStateType): InitialStateType => {
 const actionClear = (state: InitialStateType): InitialStateType => {
     console.log(state.clearValueStage);
     if (state.clearValueStage === 0) {
-        return {...state}
-    }
-    if (state.clearValueStage === 1) {
         return {
             ...state,
             values: [],
+            //previousAction: ACTION_NUM_PRESS,
             clearValueStage: 0
         }
     }
     return {
         ...state,
         currentValue: 0,
-        clearValueStage: 1
+        clearValueStage: 0
     }
 }
 
