@@ -8,7 +8,7 @@ import {
 } from '../actions/buttonsActions';
 import {
     btnAdd,
-    btnClear, btnComma,
+    btnClear,
     btnDivide, btnMemClear, btnMemSubtract, btnMemAdd, btnMemRead,
     btnMultiply,
     btnPercent,
