@@ -1,6 +1,6 @@
 import {
     ACTION_ADD, ACTION_CLEAR,
-    ACTION_DIVIDE,
+    ACTION_DIVIDE, ACTION_MEM_ADD, ACTION_MEM_CLEAR, ACTION_MEM_READ, ACTION_MEM_SUBTRACT,
     ACTION_MULTIPLY, ACTION_NUM_PRESS,
     ACTION_PERCENT,
     ACTION_RESULT,
@@ -37,6 +37,18 @@ export type ActionToggleACType = {
 export type ActionClearACType = {
     type: typeof ACTION_CLEAR
 }
+export type ActionMemClearACType = {
+    type: typeof ACTION_MEM_CLEAR
+}
+export type ActionMemReadACType = {
+    type: typeof ACTION_MEM_READ
+}
+export type ActionMemSubtractACType = {
+    type: typeof ACTION_MEM_SUBTRACT
+}
+export type ActionMemAddACType = {
+    type: typeof ACTION_MEM_ADD
+}
 
 export const actionNumPressAC = (value: NumBtnValueType): ActionNumBtnPressACType => ({
     type: ACTION_NUM_PRESS,
@@ -65,4 +77,16 @@ export const actionToggleAC = (): ActionToggleACType => ({
 })
 export const actionClearAC = (): ActionClearACType => ({
     type: ACTION_CLEAR
+})
+export const actionMemClearAC = (): ActionMemClearACType => ({
+    type: ACTION_MEM_CLEAR
+})
+export const actionMemReadAC = (): ActionMemReadACType => ({
+    type: ACTION_MEM_READ
+})
+export const actionMemSubtractAC = (): ActionMemSubtractACType => ({
+    type: ACTION_MEM_SUBTRACT
+})
+export const actionMemAddAC = (): ActionMemAddACType => ({
+    type: ACTION_MEM_ADD
 })

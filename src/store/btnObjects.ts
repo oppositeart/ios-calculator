@@ -1,8 +1,18 @@
 import {
-    actionAddAC, actionClearAC, ActionClearACType, actionDivideAC, actionMultiplyAC,
+    actionAddAC,
+    actionClearAC,
+    ActionClearACType,
+    actionDivideAC, actionMemAddAC,
+    actionMemClearAC,
+    actionMemReadAC,
+    actionMemSubtractAC,
+    actionMultiplyAC,
     ActionNumBtnPressACType,
-    actionNumPressAC, actionPercentAC, actionResultAC,
-    actionSubtractAC, actionToggleAC
+    actionNumPressAC,
+    actionPercentAC,
+    actionResultAC,
+    actionSubtractAC,
+    actionToggleAC
 } from './actionCreators/buttonsAC';
 
 export type NumBtnObjType = {
@@ -71,17 +81,17 @@ export const btnComma: OperationBtnObjType = {
 }
 export const btnMemClear: OperationBtnObjType = {
     name: 'mc',
-    action: null
+    action: actionMemClearAC()
 }
 export const btnMemRead: OperationBtnObjType = {
     name: 'mr',
-    action: null
+    action: actionMemReadAC()
 }
-export const btnMemMinus: OperationBtnObjType = {
+export const btnMemSubtract: OperationBtnObjType = {
     name: 'm-',
-    action: null
+    action: actionMemSubtractAC()
 }
-export const btnMemPlus: OperationBtnObjType = {
+export const btnMemAdd: OperationBtnObjType = {
     name: 'm+',
-    action: null
+    action: actionMemAddAC()
 }

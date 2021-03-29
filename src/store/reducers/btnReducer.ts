@@ -9,7 +9,7 @@ import {
 import {
     btnAdd,
     btnClear, btnComma,
-    btnDivide, btnMemClear, btnMemMinus, btnMemPlus, btnMemRead,
+    btnDivide, btnMemClear, btnMemSubtract, btnMemAdd, btnMemRead,
     btnMultiply,
     btnPercent,
     btnResult,
@@ -29,7 +29,7 @@ type InitialStateType = {
 const initialState: InitialStateType = {
     buttons: {
         btnClear, btnToggle, btnPercent, btnDivide,
-        btnMemClear, btnMemRead, btnMemMinus, btnMemPlus,
+        btnMemClear, btnMemRead, btnMemSubtract, btnMemAdd,
         btnNum7: getBtnNum(7), btnNum8: getBtnNum(8), btnNum9: getBtnNum(9), btnMultiply,
         btnNum4: getBtnNum(4), btnNum5: getBtnNum(5), btnNum6: getBtnNum(6), btnSubtract,
         btnNum1: getBtnNum(1), btnNum2: getBtnNum(2), btnNum3: getBtnNum(3), btnAdd,
