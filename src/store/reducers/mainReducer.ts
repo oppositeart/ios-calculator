@@ -47,7 +47,7 @@ const changeValue = (state: InitialStateType, action: ActionNumBtnPressACType): 
 const actionMath = (state: InitialStateType, action: any): InitialStateType => {
     // If action is the same as previous skip
     if (state.previousAction === action.type) {
-        return {...state}
+        return state
     }
     // If action is different from previous and not input digits or '=', then change action type to current
     if (state.previousAction !== ACTION_NUM_PRESS && state.previousAction !== ACTION_RESULT) {
@@ -71,7 +71,6 @@ const actionMath = (state: InitialStateType, action: any): InitialStateType => {
         const valuesArr: ValueObjType[] = state.previousAction === ACTION_RESULT
             ? [valueObj]
             : [...state.values, valueObj];
-        //const valuesArr: ValueObjType[] =[...state.values, valueObj];
         return {
             ...state,
             values: valuesArr,
@@ -84,7 +83,7 @@ const actionMath = (state: InitialStateType, action: any): InitialStateType => {
 const actionPercent = (state: InitialStateType, action: ActionPercentACType): InitialStateType => {
     // If action is the same as previous or value hasn't changed skip
     if (state.previousAction === action.type || state.previousAction !== ACTION_NUM_PRESS) {
-        return {...state}
+        return state
     }
     return {
         ...state,
@@ -96,7 +95,7 @@ const actionPercent = (state: InitialStateType, action: ActionPercentACType): In
 const actionResult = (state: InitialStateType, action: ActionResultACType): InitialStateType => {
     // If no values return
     if (!state.values.length) {
-        return {...state}
+        return state
     }
     // If action is the same as previous skip
     if (state.previousAction === action.type) {

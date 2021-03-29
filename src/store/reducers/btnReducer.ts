@@ -42,7 +42,7 @@ const initialState: InitialStateType = {
 const createPressActionReducer = (btnName: string): (state: InitialStateType) => InitialStateType => {
     return (state: InitialStateType): InitialStateType => {
         if (state.pressedBtnName === btnName) {
-            return {...state}
+            return state
         }
         let buttonsObj = {
             ...state.buttons,
@@ -73,7 +73,7 @@ const createPressActionReducer = (btnName: string): (state: InitialStateType) =>
 const createBtnClearStageReducer = (btnStage: ClearBtnStageType): (state: InitialStateType) => InitialStateType => {
     return (state: InitialStateType): InitialStateType => {
         if (state.clearBtnStage === btnStage) {
-            return {...state}
+            return state
         }
         let newState = {
             ...state,
@@ -104,9 +104,9 @@ const createBtnClearStageReducer = (btnStage: ClearBtnStageType): (state: Initia
 // Wrap reducer or use just as reducer to add ability to clear pressed btn state
 const withClearPressState = (reducer?: ((state: InitialStateType) => InitialStateType)) => {
     return (state: InitialStateType): InitialStateType => {
-        const newState = reducer ? {...reducer(state)} : {...state};
+        const newState = reducer ? {...reducer(state)} : state;
         if (!state.pressedBtnName) {
-            return {...newState}
+            return newState
         }
         return {
             ...newState,
