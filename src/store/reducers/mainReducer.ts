@@ -28,6 +28,7 @@ type InitialStateType = {
 }
 
 const initialState: InitialStateType = {
+    // Used values array to be able to create HISTORY component in future
     values: [],
     currentValue: 0,
     memValue: 0,
@@ -52,7 +53,7 @@ const actionMath = (state: InitialStateType, action: any): InitialStateType => {
     if (state.previousAction !== ACTION_NUM_PRESS && state.previousAction !== ACTION_RESULT) {
         let a = [...state.values]
         // If action was ACTION_PERCENT length could be 0
-        if (a.length > 1) {
+        if (a.length > 0) {
             a[a.length - 1] = {value: a[a.length - 1].value, action: action.type}
         }
         return {
@@ -93,12 +94,21 @@ const actionPercent = (state: InitialStateType, action: ActionPercentACType): In
     }
 }
 const actionResult = (state: InitialStateType, action: ActionResultACType): InitialStateType => {
+    // If no values return
+    if (!state.values.length) {
+        return {...state}
+    }
     // If action is the same as previous skip
     if (state.previousAction === action.type) {
-        return {...state}
+        return {
+            ...state,
+            currentValue: mathCalculation([state.values[state.values.length - 1], {value: state.currentValue, action: state.previousAction}]),
+            previousAction: action.type
+        }
     }
     return {
         ...state,
+        values: [...state.values, {value: state.currentValue, action: state.values[state.values.length - 1].action}],
         // Calculates values inside of the values array
         currentValue: mathCalculation([...state.values, {value: state.currentValue, action: state.previousAction}]),
         previousAction: action.type
