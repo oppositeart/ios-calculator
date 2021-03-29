@@ -33,7 +33,7 @@ const initialState: InitialStateType = {
         btnNum7: getBtnNum(7), btnNum8: getBtnNum(8), btnNum9: getBtnNum(9), btnMultiply,
         btnNum4: getBtnNum(4), btnNum5: getBtnNum(5), btnNum6: getBtnNum(6), btnSubtract,
         btnNum1: getBtnNum(1), btnNum2: getBtnNum(2), btnNum3: getBtnNum(3), btnAdd,
-        btnNum0: getBtnNum(0), btnComma, btnResult
+        btnNum0: getBtnNum(0), btnComma: getBtnNum(','), btnResult
     },
     clearBtnStage: 0,
     pressedBtnName: ''

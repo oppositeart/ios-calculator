@@ -22,6 +22,7 @@ export type ValueObjType = {
 type InitialStateType = {
     values: Array<ValueObjType>,
     currentValue: number,
+    stringValue: string,
     memValue: number,
     previousAction: string,
     clearValueStage: ClearBtnStageType
@@ -31,15 +32,44 @@ const initialState: InitialStateType = {
     // Used values array to be able to create HISTORY component in future
     values: [],
     currentValue: 0,
+    stringValue: '',
     memValue: 0,
     previousAction: ACTION_NUM_PRESS,
     clearValueStage: 0
 }
 
+const fixFloatNumber = (a: number, length: number): number => {
+    const calcLength = Math.pow(10, length);
+    return Math.floor(a * calcLength) / calcLength;
+}
+const parseValue = (val: string):number => {
+    return parseFloat(val.replace(',', '.'));
+}
+
 const changeValue = (state: InitialStateType, action: ActionNumBtnPressACType): InitialStateType => {
+    const isCommaFlag: boolean = state.stringValue.indexOf(',') > -1;
+    if (isCommaFlag && action.value.toString() === ',') {
+        return state
+    }
+    const valueStr: string = action.value.toString();
+    let strValue = '';
+    if (state.previousAction === action.type) {
+        strValue =  valueStr === ',' && state.stringValue === ''
+            ? '0' + valueStr
+            : state.stringValue + valueStr
+    } else {
+        strValue = valueStr === ','
+            ? '0' + valueStr
+            : valueStr
+    }
     return {
         ...state,
-        currentValue: state.previousAction === action.type ? state.currentValue * 10 + action.value : action.value,
+        //currentValue: state.previousAction === action.type ? state.currentValue * 10 + action.value : action.value,
+        // currentValue: state.previousAction === action.type
+        //     ? fixFloatNumber(state.currentValue + val, 9)
+        //     : action.value,
+        stringValue: strValue,
+        currentValue:parseValue(strValue),
         previousAction: action.type,
         clearValueStage: 1
     };
@@ -89,7 +119,7 @@ const actionPercent = (state: InitialStateType, action: ActionPercentACType): In
     return {
         ...state,
         // Limit digit capacity after comma
-        currentValue: Math.round(percent * 100000000) / 100000000
+        currentValue: Math.floor(percent * 100000000) / 100000000
     }
 }
 const actionResult = (state: InitialStateType, action: ActionResultACType): InitialStateType => {
