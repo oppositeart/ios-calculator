@@ -9,10 +9,10 @@ import {
 import mathCalculation from '../mathCalculation';
 import {
     ActionNumBtnPressACType,
-    ActionPercentACType,
     ActionResultACType
 } from '../actionCreators/buttonsAC';
 import {ClearBtnStageType} from './btnReducer';
+import {getBtnNum} from '../btnObjects';
 
 export type ValueObjType = {
     value: number,
@@ -21,7 +21,6 @@ export type ValueObjType = {
 
 type InitialStateType = {
     values: Array<ValueObjType>,
-    currentValue: number,
     stringValue: string,
     memValue: number,
     previousAction: string,
@@ -31,45 +30,47 @@ type InitialStateType = {
 const initialState: InitialStateType = {
     // Used values array to be able to create HISTORY component in future
     values: [],
-    currentValue: 0,
-    stringValue: '',
+    stringValue: '0',
     memValue: 0,
     previousAction: ACTION_NUM_PRESS,
     clearValueStage: 0
 }
 
+// Get comma symbol from button object
+const commaSymbol: string = getBtnNum(',').name;
+
 const fixFloatNumber = (a: number, length: number): number => {
     const calcLength = Math.pow(10, length);
     return Math.floor(a * calcLength) / calcLength;
 }
-const parseValue = (val: string):number => {
-    return parseFloat(val.replace(',', '.'));
+// Parse string to number replacing commaSymbol to '.' needed to correspond float values
+const stringToNum = (str: string): number => {
+    return parseFloat(str.replace(commaSymbol, '.'));
+}
+// Parse number to string replacing '.' to commaSymbol needed to correspond state
+const numToString = (num: number): string => {
+    return num.toString().replace('.', commaSymbol);
 }
 
 const changeValue = (state: InitialStateType, action: ActionNumBtnPressACType): InitialStateType => {
-    const isCommaFlag: boolean = state.stringValue.indexOf(',') > -1;
-    if (isCommaFlag && action.value.toString() === ',') {
+    const valueStr: string = action.value.toString();
+    // Prevent adding more then one commaSymbol
+    if (state.stringValue.indexOf(commaSymbol) > -1 && valueStr === commaSymbol) {
         return state
     }
-    const valueStr: string = action.value.toString();
-    let strValue = '';
+    let strValue;
     if (state.previousAction === action.type) {
-        strValue =  valueStr === ',' && state.stringValue === ''
-            ? '0' + valueStr
+        strValue = state.stringValue === '0' && valueStr !== commaSymbol
+            ? strValue = valueStr
             : state.stringValue + valueStr
     } else {
-        strValue = valueStr === ','
+        strValue = valueStr === commaSymbol
             ? '0' + valueStr
             : valueStr
     }
     return {
         ...state,
-        //currentValue: state.previousAction === action.type ? state.currentValue * 10 + action.value : action.value,
-        // currentValue: state.previousAction === action.type
-        //     ? fixFloatNumber(state.currentValue + val, 9)
-        //     : action.value,
         stringValue: strValue,
-        currentValue:parseValue(strValue),
         previousAction: action.type,
         clearValueStage: 1
     };
@@ -96,7 +97,7 @@ const actionMath = (state: InitialStateType, action: any): InitialStateType => {
             ? action.type
             : state.previousAction;
         // Create object with current value and math action
-        const valueObj: ValueObjType = {value: state.currentValue, action: currentAction}
+        const valueObj: ValueObjType = {value: stringToNum(state.stringValue), action: currentAction}
         // If previous action was '=' reset array of values, else push object inside array
         const valuesArr: ValueObjType[] = state.previousAction === ACTION_RESULT
             ? [valueObj]
@@ -105,21 +106,21 @@ const actionMath = (state: InitialStateType, action: any): InitialStateType => {
             ...state,
             values: valuesArr,
             // Calculates values inside of values array
-            currentValue: mathCalculation(valuesArr),
+            stringValue: numToString(mathCalculation(valuesArr)),
             previousAction: action.type
         }
     }
 }
-const actionPercent = (state: InitialStateType, action: ActionPercentACType): InitialStateType => {
+const actionPercent = (state: InitialStateType): InitialStateType => {
     // Always calculate percent from previous value like IOS calculator
     // Windows calculator calculate in different way
-    const percent = (state.currentValue / 100) * (state.values.length > 0
+    const percent = (stringToNum(state.stringValue) / 100) * (state.values.length > 0
             ? state.values[state.values.length - 1].value
             : 1)
     return {
         ...state,
         // Limit digit capacity after comma
-        currentValue: Math.floor(percent * 100000000) / 100000000
+        stringValue: numToString(fixFloatNumber(percent, 9))
     }
 }
 const actionResult = (state: InitialStateType, action: ActionResultACType): InitialStateType => {
@@ -131,15 +132,23 @@ const actionResult = (state: InitialStateType, action: ActionResultACType): Init
     if (state.previousAction === action.type) {
         return {
             ...state,
-            currentValue: mathCalculation([state.values[state.values.length - 1], {value: state.currentValue, action: state.previousAction}]),
+            stringValue: numToString(
+                mathCalculation(
+                    [state.values[state.values.length - 1], {value: stringToNum(state.stringValue), action: state.previousAction}]
+                )
+            ),
             previousAction: action.type
         }
     }
     return {
         ...state,
-        values: [...state.values, {value: state.currentValue, action: state.values[state.values.length - 1].action}],
+        values: [...state.values, {value: stringToNum(state.stringValue), action: state.values[state.values.length - 1].action}],
         // Calculates values inside of the values array
-        currentValue: mathCalculation([...state.values, {value: state.currentValue, action: state.previousAction}]),
+        stringValue: numToString(
+            mathCalculation(
+                [...state.values, {value: stringToNum(state.stringValue), action: state.previousAction}]
+            )
+        ),
         previousAction: action.type
     }
 }
@@ -147,7 +156,7 @@ const actionToggle = (state: InitialStateType): InitialStateType => {
     return {
         ...state,
         // Invert value
-        currentValue: state.currentValue * -1
+        stringValue: numToString(stringToNum(state.stringValue) * -1)
     }
 }
 const actionClear = (state: InitialStateType): InitialStateType => {
@@ -161,26 +170,26 @@ const actionClear = (state: InitialStateType): InitialStateType => {
     }
     return {
         ...state,
-        currentValue: 0,
+        stringValue: '0',
         clearValueStage: 0
     }
 }
 const actionMemAdd = (state: InitialStateType): InitialStateType => {
     return {
         ...state,
-        memValue: state.memValue + state.currentValue
+        memValue: state.memValue + stringToNum(state.stringValue)
     }
 }
 const actionMemSubtract = (state: InitialStateType): InitialStateType => {
     return {
         ...state,
-        memValue: state.memValue - state.currentValue
+        memValue: state.memValue - stringToNum(state.stringValue)
     }
 }
 const actionMemRead = (state: InitialStateType): InitialStateType => {
     return {
         ...state,
-        currentValue: state.memValue
+        stringValue: numToString(state.memValue)
     }
 }
 const actionMemClear = (state: InitialStateType): InitialStateType => {
