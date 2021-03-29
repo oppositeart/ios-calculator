@@ -41,6 +41,7 @@ const initialState: InitialStateType = {
 // Change pressed state of action buttons
 const createPressActionReducer = (btnName: string): (state: InitialStateType) => InitialStateType => {
     return (state: InitialStateType): InitialStateType => {
+        console.log(btnName);
         if (state.pressedBtnName === btnName) {
             return state
         }
@@ -116,7 +117,8 @@ const withClearPressState = (reducer?: ((state: InitialStateType) => InitialStat
                     ...newState.buttons[newState.pressedBtnName],
                     isPressed: false
                 }
-            }
+            },
+            pressedBtnName: ''
         }
     }
 }
