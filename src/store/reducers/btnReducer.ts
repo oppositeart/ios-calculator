@@ -41,7 +41,6 @@ const initialState: InitialStateType = {
 // Change pressed state of action buttons
 const createPressActionReducer = (btnName: string): (state: InitialStateType) => InitialStateType => {
     return (state: InitialStateType): InitialStateType => {
-        console.log(btnName);
         if (state.pressedBtnName === btnName) {
             return state
         }
@@ -73,39 +72,43 @@ const createPressActionReducer = (btnName: string): (state: InitialStateType) =>
 // Controls AC/C button state
 const createBtnClearStageReducer = (btnStage: ClearBtnStageType): (state: InitialStateType) => InitialStateType => {
     return (state: InitialStateType): InitialStateType => {
-        if (state.clearBtnStage === btnStage) {
-            return state
-        }
-        let newState = {
-            ...state,
-            buttons: {
-                ...state.buttons,
-                btnClear: {
-                    ...state.buttons.btnClear,
-                    name: state.buttons.btnClear.nameArr[btnStage]
-                }
-            },
-            clearBtnStage: btnStage
-        }
-        if (btnStage === 0 && state.pressedBtnName) {
+        let newState: InitialStateType = {...state};
+        if (state.clearBtnStage === 0 && state.pressedBtnName) {
             newState = {
                 ...newState,
                 buttons: {
                     ...newState.buttons,
-                    [state.pressedBtnName]: {
-                        ...state.buttons[state.pressedBtnName],
-                        isPressed: true
+                    [newState.pressedBtnName]: {
+                        ...newState.buttons[newState.pressedBtnName],
+                        isPressed: false
                     }
-                }
+                },
+                pressedBtnName: ''
             }
         }
-        return {...newState}
+        if (state.clearBtnStage === btnStage) {
+            return newState
+        }
+        newState = {
+            ...newState,
+            buttons: {
+                ...newState.buttons,
+                btnClear: {
+                    ...newState.buttons.btnClear,
+                    name: newState.buttons.btnClear.nameArr[btnStage]
+                }
+            },
+            clearBtnStage: btnStage
+        }
+
+        return newState
     }
 }
+
 // Wrap reducer or use just as reducer to add ability to clear pressed btn state
 const withClearPressState = (reducer?: ((state: InitialStateType) => InitialStateType)) => {
     return (state: InitialStateType): InitialStateType => {
-        const newState = reducer ? {...reducer(state)} : state;
+        const newState = reducer ? {...reducer(state)} : {...state};
         if (!state.pressedBtnName) {
             return newState
         }
@@ -113,8 +116,8 @@ const withClearPressState = (reducer?: ((state: InitialStateType) => InitialStat
             ...newState,
             buttons: {
                 ...newState.buttons,
-                [newState.pressedBtnName]: {
-                    ...newState.buttons[newState.pressedBtnName],
+                [state.pressedBtnName]: {
+                    ...newState.buttons[state.pressedBtnName],
                     isPressed: false
                 }
             },
