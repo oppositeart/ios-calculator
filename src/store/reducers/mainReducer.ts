@@ -81,10 +81,15 @@ const actionMath = (state: InitialStateType, action: any): InitialStateType => {
     }
 }
 const actionPercent = (state: InitialStateType, action: ActionPercentACType): InitialStateType => {
+    // Always calculate percent from previous value like IOS calculator
+    // Windows calculator calculate in different way
+    const percent = (state.currentValue / 100) * (state.values.length > 0
+            ? state.values[state.values.length - 1].value
+            : 1)
     return {
         ...state,
-        currentValue: (state.currentValue / 100) *
-            (state.values.length > 1 ? state.values[state.values.length - 1].value : 1)
+        // Limit digit capacity after comma
+        currentValue: Math.round(percent * 1000000000) / 1000000000
     }
 }
 const actionResult = (state: InitialStateType, action: ActionResultACType): InitialStateType => {
