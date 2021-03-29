@@ -81,15 +81,10 @@ const actionMath = (state: InitialStateType, action: any): InitialStateType => {
     }
 }
 const actionPercent = (state: InitialStateType, action: ActionPercentACType): InitialStateType => {
-    // If action is the same as previous or value hasn't changed skip
-    if (state.previousAction === action.type || state.previousAction !== ACTION_NUM_PRESS) {
-        return state
-    }
     return {
         ...state,
         currentValue: (state.currentValue / 100) *
-            (state.values.length > 1 ? state.values[state.values.length - 1].value : 1),
-        previousAction: action.type
+            (state.values.length > 1 ? state.values[state.values.length - 1].value : 1)
     }
 }
 const actionResult = (state: InitialStateType, action: ActionResultACType): InitialStateType => {
