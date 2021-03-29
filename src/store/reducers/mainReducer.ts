@@ -121,12 +121,11 @@ const actionToggle = (state: InitialStateType): InitialStateType => {
     }
 }
 const actionClear = (state: InitialStateType): InitialStateType => {
-    console.log(state.clearValueStage);
     if (state.clearValueStage === 0) {
         return {
             ...state,
             values: [],
-            //previousAction: ACTION_NUM_PRESS,
+            previousAction: ACTION_NUM_PRESS,
             clearValueStage: 0
         }
     }
