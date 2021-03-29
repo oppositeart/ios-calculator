@@ -78,15 +78,15 @@ export const actionToggleAC = (): ActionToggleACType => ({
 export const actionClearAC = (): ActionClearACType => ({
     type: ACTION_CLEAR
 })
-export const actionMemClearAC = (): ActionMemClearACType => ({
-    type: ACTION_MEM_CLEAR
-})
-export const actionMemReadAC = (): ActionMemReadACType => ({
-    type: ACTION_MEM_READ
+export const actionMemAddAC = (): ActionMemAddACType => ({
+    type: ACTION_MEM_ADD
 })
 export const actionMemSubtractAC = (): ActionMemSubtractACType => ({
     type: ACTION_MEM_SUBTRACT
 })
-export const actionMemAddAC = (): ActionMemAddACType => ({
-    type: ACTION_MEM_ADD
+export const actionMemReadAC = (): ActionMemReadACType => ({
+    type: ACTION_MEM_READ
+})
+export const actionMemClearAC = (): ActionMemClearACType => ({
+    type: ACTION_MEM_CLEAR
 })

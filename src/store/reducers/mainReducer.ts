@@ -1,7 +1,7 @@
 import {createReducer} from '../createReducer';
 import {
     ACTION_ADD, ACTION_CLEAR,
-    ACTION_DIVIDE,
+    ACTION_DIVIDE, ACTION_MEM_ADD, ACTION_MEM_CLEAR, ACTION_MEM_READ, ACTION_MEM_SUBTRACT,
     ACTION_MULTIPLY, ACTION_NUM_PRESS, ACTION_PERCENT,
     ACTION_RESULT,
     ACTION_SUBTRACT, ACTION_TOGGLE
@@ -22,6 +22,7 @@ export type ValueObjType = {
 type InitialStateType = {
     values: Array<ValueObjType>,
     currentValue: number,
+    memValue: number,
     previousAction: string,
     clearValueStage: ClearBtnStageType
 }
@@ -29,6 +30,7 @@ type InitialStateType = {
 const initialState: InitialStateType = {
     values: [],
     currentValue: 0,
+    memValue: 0,
     previousAction: ACTION_NUM_PRESS,
     clearValueStage: 0
 }
@@ -125,6 +127,30 @@ const actionClear = (state: InitialStateType): InitialStateType => {
         clearValueStage: 0
     }
 }
+const actionMemAdd = (state: InitialStateType): InitialStateType => {
+    return {
+        ...state,
+        memValue: state.memValue + state.currentValue
+    }
+}
+const actionMemSubtract = (state: InitialStateType): InitialStateType => {
+    return {
+        ...state,
+        memValue: state.memValue - state.currentValue
+    }
+}
+const actionMemRead = (state: InitialStateType): InitialStateType => {
+    return {
+        ...state,
+        currentValue: state.memValue
+    }
+}
+const actionMemClear = (state: InitialStateType): InitialStateType => {
+    return {
+        ...state,
+        memValue: 0
+    }
+}
 
 export default createReducer<InitialStateType>(initialState, {
     [ACTION_NUM_PRESS]: changeValue,
@@ -135,5 +161,9 @@ export default createReducer<InitialStateType>(initialState, {
     [ACTION_PERCENT]: actionPercent,
     [ACTION_RESULT]: actionResult,
     [ACTION_TOGGLE]: actionToggle,
-    [ACTION_CLEAR]: actionClear
+    [ACTION_CLEAR]: actionClear,
+    [ACTION_MEM_ADD]: actionMemAdd,
+    [ACTION_MEM_SUBTRACT]: actionMemSubtract,
+    [ACTION_MEM_READ]: actionMemRead,
+    [ACTION_MEM_CLEAR]: actionMemClear
 })
