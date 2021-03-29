@@ -89,7 +89,7 @@ const actionPercent = (state: InitialStateType, action: ActionPercentACType): In
     return {
         ...state,
         // Limit digit capacity after comma
-        currentValue: Math.round(percent * 1000000000) / 1000000000
+        currentValue: Math.round(percent * 100000000) / 100000000
     }
 }
 const actionResult = (state: InitialStateType, action: ActionResultACType): InitialStateType => {
