@@ -15,7 +15,7 @@ const ButtonsSection: React.FC<PropsType> = ({buttons, handleClick}) => {
         keysArr.forEach((key: string, index: number, arr): void => {
             const i = index + 1;
             row.push(
-                <button className={buttons[key].isPressed ? s.active : 'btn'} key={buttons[key].name} onClick={() => handleClick(buttons[key].action)}>{buttons[key].name}</button>
+                <button className={buttons[key].isPressed ? s.active : s.btn} key={buttons[key].name} onClick={() => handleClick(buttons[key].action)}>{buttons[key].name}</button>
             );
             if (i % numInRow === 0 || i === arr.length) {
                 container.push(

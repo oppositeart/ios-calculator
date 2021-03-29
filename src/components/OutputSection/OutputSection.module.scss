@@ -1,0 +1,11 @@
+.container {
+  height: 130px;
+  padding: 0 20px 5px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+.value {
+  font-size: 3.8rem;
+  font-weight: 300;
+}

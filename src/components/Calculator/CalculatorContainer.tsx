@@ -1,33 +1,29 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {GlobalStateType} from '../../store/store';
-import OutputSection from '../OutputSection/OutputSection';
-import ButtonsSection from '../ButtonsSection/ButtonsSection';
+import Calculator from './Calculator';
 
 type StatePropsType = {
     output: string,
-    buttons: any
+    buttons: {[x: string]: any}
 }
 
 type DispatchPropsType = {
-    dispatcherFn: any
+    dispatcherFn: (action: () => {}) => () => void
 }
 
 type OwnPropsType = {};
 
 type PropsType = StatePropsType & DispatchPropsType & OwnPropsType;
 
-const CalculatorContainer: React.FC<PropsType> = ({output, buttons, dispatcherFn}) => {
+const CalculatorContainer: React.FC<PropsType> = ({dispatcherFn, ...props}) => {
     // TODO: Choose type
-    const handleClick = (action: any) => {
+    const handleClick = (action: () => {}) => {
         dispatcherFn(action);
     }
 
     return (
-        <div>
-            <OutputSection output={output} />
-            <ButtonsSection buttons={buttons} handleClick={handleClick} />
-        </div>
+        <Calculator handleClick={handleClick} {...props} />
     );
 }
 
@@ -37,7 +33,7 @@ const mapStateToProps = (state: GlobalStateType): StatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: any) => ({
-    dispatcherFn: (action: any) => dispatch(action)
+    dispatcherFn: (action: () => {}) => dispatch(action)
 })
 
 export default connect<StatePropsType, DispatchPropsType, OwnPropsType, GlobalStateType>(mapStateToProps, mapDispatchToProps)(CalculatorContainer);
