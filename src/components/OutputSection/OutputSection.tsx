@@ -9,10 +9,14 @@ const OutputSection: React.FC<PropsType> = ({output}) => {
     // Divide output by 3 digit
     const formatOutput = (str: string): string => {
         const isMinus: boolean = str.indexOf('-') > -1;
-        const separate = str.split('-')[str.split('-').length - 1].split('').reverse().join('').match(/.{1,3}/g);
-        const val = separate
+        const isComma: boolean = str.indexOf(',') > -1;
+        const separate = str.split(',')[0].split('-')[str.split('-').length - 1].split('').reverse().join('').match(/.{1,3}/g);
+        let val = separate
             ? separate.join(' ').split('').reverse().join('')
             : str;
+        if (isComma) {
+            val += str.slice(str.indexOf(','));
+        }
         return separate && isMinus ? '-' + val : val;
     }
 
