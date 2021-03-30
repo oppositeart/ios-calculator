@@ -4,7 +4,6 @@ import Button from './Button';
 
 type PropsType = {
     buttons: any,
-    // TODO: Choose type
     handleClick: (action: any) => void
 }
 

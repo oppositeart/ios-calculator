@@ -27,7 +27,7 @@ const OutputSection: React.FC<PropsType> = ({output}) => {
         if (el) {
             if (output.length > 6) {
                 for (let i: number = 0; i < output.length - 6; i++) {
-                    fontSize -= (fontSize * fontSize * 0.15);
+                    fontSize -= (fontSize * fontSize * 0.17);
                     el.style.fontSize = fontSize + 'em';
                 }
             } else {
