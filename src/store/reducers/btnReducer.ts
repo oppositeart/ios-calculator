@@ -39,43 +39,53 @@ const buttonsObj = {
 const initialState: InitialStateType = {
     buttons: buttonsObj,
     buttonsArray: [
-        buttonsObj.btnClear, buttonsObj.btnToggle, buttonsObj.btnPercent, buttonsObj.btnDivide,
-        buttonsObj.btnMemClear, buttonsObj.btnMemRead, buttonsObj.btnMemSubtract, buttonsObj.btnMemAdd,
-        buttonsObj.btnNum7, buttonsObj.btnNum8, buttonsObj.btnNum9, buttonsObj.btnMultiply,
-        buttonsObj.btnNum4, buttonsObj.btnNum5, buttonsObj.btnNum6, btnSubtract,
-        buttonsObj.btnNum1, buttonsObj.btnNum2, buttonsObj.btnNum3, buttonsObj.btnAdd,
-        buttonsObj.btnNum0, buttonsObj.btnComma, buttonsObj.btnResult
+        {btnClear}, {btnToggle}, {btnPercent}, {btnDivide},
+        {btnMemClear}, {btnMemRead}, {btnMemSubtract}, {btnMemAdd},
+        {btnNum7: getBtnNum(7)}, {btnNum8: getBtnNum(8)}, {btnNum9: getBtnNum(9)}, {btnMultiply},
+        {btnNum4: getBtnNum(4)}, {btnNum5: getBtnNum(5)}, {btnNum6: getBtnNum(6)}, {btnSubtract},
+        {btnNum1: getBtnNum(1)}, {btnNum2: getBtnNum(2)}, {btnNum3: getBtnNum(3)}, {btnAdd},
+        {btnNum0: getBtnNum(0)}, {btnComma: getBtnNum(',')}, {btnResult}
     ],
     clearBtnStage: 0,
     pressedBtnName: ''
 }
+
+const getObjFormArr = (array: {}[], keyName: string): {} => {
+    let obj: {} = {}
+    array.forEach((el: {[k: string]: any}) => {
+        if (el.hasOwnProperty(keyName)) {
+            obj = {...el[keyName]};
+        }
+    });
+    return obj
+}
+// Add or Change property of buttonsArray
+const addBtnProperty = (array: {}[], keyName: string, value: [string, any]): {}[] => {
+    const a: {[k: string]: {}}[] = [...array];
+    array.forEach((el: {[k: string]: {}}, index: number) => {
+        if (el.hasOwnProperty(keyName)) {
+            a[index][keyName] = {...el[keyName], [value[0]]: value[1]}
+            return;
+        }
+    });
+    return a;
+}
+
 // Change pressed state of action buttons
 const createPressActionReducer = (btnName: string): (state: InitialStateType) => InitialStateType => {
     return (state: InitialStateType): InitialStateType => {
         if (state.pressedBtnName === btnName) {
             return state
         }
-        let btnObj = {
-            ...state.buttons,
-            [btnName]:  {
-                ...state.buttons[btnName],
-                isPressed: true
-            }
-        }
+        let btnArr = addBtnProperty(state.buttonsArray, btnName, ['isPressed', true]);
         if (state.pressedBtnName) {
-            btnObj = {
-                ...btnObj,
-                [state.pressedBtnName]:  {
-                    ...state.buttons[state.pressedBtnName],
-                    isPressed: false
-                }
-            }
+            btnArr = addBtnProperty(state.buttonsArray, state.pressedBtnName, ['isPressed', false]);
         }
         return {
             ...state,
-            buttons: {
-                ...btnObj
-            },
+            buttonsArray: [
+                ...btnArr
+            ],
             pressedBtnName: btnName
         }
     }
@@ -87,32 +97,19 @@ const createBtnClearStageReducer = (btnStage: ClearBtnStageType): (state: Initia
         if (state.clearBtnStage === 0 && state.pressedBtnName) {
             newState = {
                 ...newState,
-                buttons: {
-                    ...newState.buttons,
-                    [newState.pressedBtnName]: {
-                        ...newState.buttons[newState.pressedBtnName],
-                        isPressed: false
-                    }
-                },
+                buttonsArray: [...addBtnProperty(state.buttonsArray, state.pressedBtnName, ['isPressed', false])],
                 pressedBtnName: ''
             }
         }
         if (state.clearBtnStage === btnStage) {
             return newState
         }
-        newState = {
+        const btnObj: any = getObjFormArr(state.buttonsArray, 'btnClear');
+        return {
             ...newState,
-            buttons: {
-                ...newState.buttons,
-                btnClear: {
-                    ...newState.buttons.btnClear,
-                    name: newState.buttons.btnClear.nameArr[btnStage]
-                }
-            },
+            buttonsArray: [...addBtnProperty(state.buttonsArray, 'btnClear', ['name', btnObj? btnObj.nameArr[btnStage] : ''])],
             clearBtnStage: btnStage
         }
-
-        return newState
     }
 }
 
@@ -125,13 +122,7 @@ const withClearPressState = (reducer?: ((state: InitialStateType) => InitialStat
         }
         return {
             ...newState,
-            buttons: {
-                ...newState.buttons,
-                [state.pressedBtnName]: {
-                    ...newState.buttons[state.pressedBtnName],
-                    isPressed: false
-                }
-            },
+            buttons: [...addBtnProperty(state.buttonsArray, state.pressedBtnName, ['isPressed', false])],
             pressedBtnName: ''
         }
     }

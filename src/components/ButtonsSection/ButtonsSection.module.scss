@@ -6,7 +6,7 @@ $clr-black: #000;
 $clr-black-3: #333;
 $clr-grey: #a6a6a6;
 $clr-white: #fff;
-$clr-orange: #f09a37;
+$clr-orange: #ff9500;
 
 %active {
   background-color: $clr-white;
@@ -28,6 +28,7 @@ $clr-orange: #f09a37;
   width: $btn-size;
   height: $btn-size;
   margin: $btn-margin;
+  padding: 0;
   border-radius: $btn-size;
   background-color: $clr-black-3;
   color: $clr-white;
@@ -84,14 +85,6 @@ $clr-orange: #f09a37;
 
 // Customize unique buttons
 
-// Customize +/- button
-.row:first-child {
-  .btn:nth-child(2) {
-    font-family: 'Times New Roman', sans-serif;
-    font-weight: 600;
-    font-size: $btn-font-size * 1.067;
-  }
-}
 // Customize 0 button
 .row:last-child {
   .btn:first-child {

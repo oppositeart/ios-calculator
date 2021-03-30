@@ -11,20 +11,20 @@ const ButtonsSection: React.FC<PropsType> = ({buttons, handleClick}) => {
     const sortEl = (btnsArr: {}[], numInRow: number): JSX.Element[] => {
         const container:JSX.Element[] = [];
         let row:JSX.Element[] = [];
-        //const keysArr: string[] = Object.keys(btnsObj);
         btnsArr.forEach((el: any, index: number): void => {
             const i = index + 1;
+            const objKey = Object.keys(el)[0];
             row.push(
-                <Button key={el.name}
-                        name={el.name}
-                        isActive={el.isPressed}
-                        action={el.action}
+                <Button key={el[objKey].name}
+                        name={el[objKey].name}
+                        isActive={el[objKey].isPressed}
+                        action={el[objKey].action}
                         handleClick={handleClick}
                 />
             );
             if (i % numInRow === 0 || i === btnsArr.length) {
                 container.push(
-                    <div className={s.row} key={i + el.name}>{row}</div>
+                    <div className={s.row} key={i + el[objKey].name}>{row}</div>
                 );
                 row = [];
             }
