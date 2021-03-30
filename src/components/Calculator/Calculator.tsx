@@ -10,22 +10,36 @@ type PropsType = {
 }
 
 const Calculator: React.FC<PropsType> = ({output, buttons, handleClick}) => {
+    // Add resize listener
     useEffect(() => {
         window.addEventListener("resize", onResize);
         onResize();
         return () => {
-            window.removeEventListener("resize", onResize)
+            window.removeEventListener("resize", onResize);
         }
+
+    }, []);
+    // Prevent touch zoom
+    useEffect(() => {
+        window.addEventListener('touchmove', preventZoom, { passive: false });
+        return () => {
+            window.removeEventListener('touchmove', preventZoom);
+        }
+
     }, []);
 
     const onResize = () => {
-       // Aspect ratio of iPhone 6/7/8 Plus
+       // Aspect ratio of iPhone 6/7/8 Plus (width: 414; height: 736; font-size: 24px)
        if (window.innerWidth / window.innerHeight < 0.5625) {
-            document.documentElement.style.fontSize = window.innerWidth * 0.0555555555555556 + 'px';
+            document.documentElement.style.fontSize = window.innerWidth * 0.0579 + 'px';
        } else {
-          document.documentElement.style.fontSize = window.innerHeight * 0.03125 + 'px';
+          document.documentElement.style.fontSize = window.innerHeight * 0.0326 + 'px';
        }
     }
+    const preventZoom = (event: any) => {
+        if (event.scale !== 1) { event.preventDefault(); }
+    }
+
     return (
         <div className={s.container}>
             <div className={s.content}>
