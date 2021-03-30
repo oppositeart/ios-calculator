@@ -6,7 +6,7 @@ import {playClickAudio} from '../../audio/audioController';
 
 type StatePropsType = {
     output: string,
-    buttons: {[x: string]: any}
+    buttons: {[x: string]: any}[]
 }
 
 type DispatchPropsType = {
@@ -30,7 +30,7 @@ const CalculatorContainer: React.FC<PropsType> = ({dispatcherFn, ...props}) => {
 
 const mapStateToProps = (state: GlobalStateType): StatePropsType => ({
     output: state.mainReducer.stringValue,
-    buttons: state.btnReducer.buttons
+    buttons: state.btnReducer.buttonsArray,
 })
 
 const mapDispatchToProps = (dispatch: any) => ({

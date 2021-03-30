@@ -22,19 +22,30 @@ export type ClearBtnStageType = 0 | 1;
 
 type InitialStateType = {
     buttons: {[x: string]: any},
+    buttonsArray: {}[],
     clearBtnStage: ClearBtnStageType,
     pressedBtnName: string
 }
 
+const buttonsObj = {
+    btnClear, btnToggle, btnPercent, btnDivide,
+    btnMemClear, btnMemRead, btnMemSubtract, btnMemAdd,
+    btnNum7: getBtnNum(7), btnNum8: getBtnNum(8), btnNum9: getBtnNum(9), btnMultiply,
+    btnNum4: getBtnNum(4), btnNum5: getBtnNum(5), btnNum6: getBtnNum(6), btnSubtract,
+    btnNum1: getBtnNum(1), btnNum2: getBtnNum(2), btnNum3: getBtnNum(3), btnAdd,
+    btnNum0: getBtnNum(0), btnComma: getBtnNum(','), btnResult
+}
+
 const initialState: InitialStateType = {
-    buttons: {
-        btnClear, btnToggle, btnPercent, btnDivide,
-        btnMemClear, btnMemRead, btnMemSubtract, btnMemAdd,
-        btnNum7: getBtnNum(7), btnNum8: getBtnNum(8), btnNum9: getBtnNum(9), btnMultiply,
-        btnNum4: getBtnNum(4), btnNum5: getBtnNum(5), btnNum6: getBtnNum(6), btnSubtract,
-        btnNum1: getBtnNum(1), btnNum2: getBtnNum(2), btnNum3: getBtnNum(3), btnAdd,
-        btnNum0: getBtnNum(0), btnComma: getBtnNum(','), btnResult
-    },
+    buttons: buttonsObj,
+    buttonsArray: [
+        buttonsObj.btnClear, buttonsObj.btnToggle, buttonsObj.btnPercent, buttonsObj.btnDivide,
+        buttonsObj.btnMemClear, buttonsObj.btnMemRead, buttonsObj.btnMemSubtract, buttonsObj.btnMemAdd,
+        buttonsObj.btnNum7, buttonsObj.btnNum8, buttonsObj.btnNum9, buttonsObj.btnMultiply,
+        buttonsObj.btnNum4, buttonsObj.btnNum5, buttonsObj.btnNum6, btnSubtract,
+        buttonsObj.btnNum1, buttonsObj.btnNum2, buttonsObj.btnNum3, buttonsObj.btnAdd,
+        buttonsObj.btnNum0, buttonsObj.btnComma, buttonsObj.btnResult
+    ],
     clearBtnStage: 0,
     pressedBtnName: ''
 }
@@ -44,7 +55,7 @@ const createPressActionReducer = (btnName: string): (state: InitialStateType) =>
         if (state.pressedBtnName === btnName) {
             return state
         }
-        let buttonsObj = {
+        let btnObj = {
             ...state.buttons,
             [btnName]:  {
                 ...state.buttons[btnName],
@@ -52,8 +63,8 @@ const createPressActionReducer = (btnName: string): (state: InitialStateType) =>
             }
         }
         if (state.pressedBtnName) {
-            buttonsObj = {
-                ...buttonsObj,
+            btnObj = {
+                ...btnObj,
                 [state.pressedBtnName]:  {
                     ...state.buttons[state.pressedBtnName],
                     isPressed: false
@@ -63,7 +74,7 @@ const createPressActionReducer = (btnName: string): (state: InitialStateType) =>
         return {
             ...state,
             buttons: {
-                ...buttonsObj
+                ...btnObj
             },
             pressedBtnName: btnName
         }
