@@ -67,7 +67,7 @@ export const btnResult: OperationBtnObjType = {
     action: actionResultAC()
 }
 export const btnToggle: OperationBtnObjType = {
-    name: '+/-',
+    name: '\u207A\u2215\u208B',
     action: actionToggleAC()
 }
 export const btnClear: ClearBtnObjType = {

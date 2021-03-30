@@ -8,18 +8,30 @@ type PropsType = {
 }
 
 const ButtonsSection: React.FC<PropsType> = ({buttons, handleClick}) => {
+    const handlePress = (e: React.MouseEvent) => {
+
+    }
+
     const sortEl = (btnsObj: any, numInRow: number): JSX.Element[] => {
         const container:JSX.Element[] = [];
         let row:JSX.Element[] = [];
         const keysArr: string[] = Object.keys(btnsObj);
         keysArr.forEach((key: string, index: number, arr): void => {
             const i = index + 1;
+            const cls = [s.btn]
+            buttons[key].isPressed && cls.push(s.active);
+            console.log(cls.join(' '));
             row.push(
-                <button className={buttons[key].isPressed ? s.active : s.btn} key={buttons[key].name} onClick={() => handleClick(buttons[key].action)}>{buttons[key].name}</button>
+                <button className={cls.join(' ')}
+                        key={buttons[key].name}
+                        onClick={() => handleClick(buttons[key].action)}
+                        onMouseDown={handlePress}>
+                    {buttons[key].name}
+                </button>
             );
             if (i % numInRow === 0 || i === arr.length) {
                 container.push(
-                    <div key={i + buttons[key].name}>{row}</div>
+                    <div className={s.row} key={i + buttons[key].name}>{row}</div>
                 );
                 row = [];
             }
@@ -28,7 +40,7 @@ const ButtonsSection: React.FC<PropsType> = ({buttons, handleClick}) => {
     }
 
     return (
-        <div>
+        <div className={s.container}>
             {sortEl(buttons, 4)}
         </div>
     );

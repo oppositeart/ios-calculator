@@ -1,19 +1,19 @@
 @use '~normalize.css/normalize';
 @font-face {
   font-family: 'SF UI Text';
-  src: local('SF UI Text'), url(../fonts/SFUIText-Regular.woff) format('woff');
-  font-weight: normal;
+  src: local('SF UI Text'), url(../fonts/SFUIText-Light.woff) format('woff');
+  font-weight: 300;
   font-style: normal;
 }
 @font-face {
-  font-family: 'SF UI Text';
-  src: local('SF UI Text'), url(../fonts/SFUIText-Light.woff) format('woff');
+  font-family: 'SF UI Display';
+  src: local('SF UI Display'), url(../fonts/SFUIDisplay-Light.woff) format('woff');
   font-weight: 300;
   font-style: normal;
 }
 body {
   background-color: #000;
   color: #f1f1f1;
-  font-size: 1.5rem;
   font-family: 'SF UI Text', 'Helvetica', 'Myriad Pro', sans-serif;
+  font-weight: 300;
 }

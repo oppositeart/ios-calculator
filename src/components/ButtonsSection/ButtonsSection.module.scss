@@ -1,18 +1,58 @@
-$btn-size: 3.7rem;
+$btn-size: 3.5rem;
 
+$clr-black: #000;
+$clr-black-3: #333;
+$clr-grey: #a6a6a6;
+$clr-white: #fff;
+$clr-orange: #f09a37;
+
+.active {
+  background-color: $clr-white;
+  color: $clr-orange;
+}
+%btn-last-child {
+  background-color: $clr-orange;
+  color: $clr-white;
+}
 .btn {
   width: $btn-size;
   height: $btn-size;
   margin: 0.29rem;
   border-radius: $btn-size;
-  background-color: #333;
-  color: #fff;
-  font-weight: 300;
+  background-color: $clr-black-3;
+  color: $clr-white;
+  font-size: 1.5rem;
   border: none;
   outline: none;
   box-shadow: none;
   cursor: pointer;
+
+  &.active {
+    @extend .active;
+  }
 }
-.active {
-  color: #f00;
+.row:first-child {
+  .btn {
+    background-color: $clr-grey;
+    color: $clr-black;
+  }
+  .btn:last-child {
+    @extend %btn-last-child;
+
+    &.active {
+      @extend .active;
+    }
+  }
+}
+.btn:last-child {
+  @extend %btn-last-child;
+
+  &.active {
+    @extend .active;
+  }
+}
+.btn-symbol {
+  font-family: 'Times New Roman', sans-serif;
+  font-weight: 600;
+  font-size: 1.6rem;
 }
