@@ -1,4 +1,6 @@
 $btn-size: 3.5rem;
+$btn-margin: 0.29rem;
+$btn-font-size: 1.5rem;
 
 $clr-black: #000;
 $clr-black-3: #333;
@@ -6,41 +8,66 @@ $clr-grey: #a6a6a6;
 $clr-white: #fff;
 $clr-orange: #f09a37;
 
-.active {
+%active {
   background-color: $clr-white;
   color: $clr-orange;
 }
 %btn-last-child {
   background-color: $clr-orange;
   color: $clr-white;
+  font-size: $btn-font-size * 1.274;
+  font-weight: 300;
 }
+
+@mixin lighten-clr($clr) {
+  background-color: scale_color($clr, $lightness: 40%);
+  transition: background-color 0s;
+}
+
 .btn {
   width: $btn-size;
   height: $btn-size;
-  margin: 0.29rem;
+  margin: $btn-margin;
   border-radius: $btn-size;
   background-color: $clr-black-3;
   color: $clr-white;
-  font-size: 1.5rem;
+  font-size: $btn-font-size;
+  font-weight: 300;
+  vertical-align: top;
   border: none;
   outline: none;
   box-shadow: none;
   cursor: pointer;
+  transition: background-color 0.5s ;
 
   &.active {
-    @extend .active;
+    @extend %active;
+  }
+  &.pressed {
+    @include lighten-clr($clr-black-3);
   }
 }
 .row:first-child {
   .btn {
     background-color: $clr-grey;
     color: $clr-black;
-  }
-  .btn:last-child {
-    @extend %btn-last-child;
 
-    &.active {
-      @extend .active;
+    &.pressed {
+      @include lighten-clr($clr-grey);
+    }
+    &:not(last-child) {
+      font-size: $btn-font-size * 0.934;
+      font-weight: 500;
+    }
+    &:last-child {
+      @extend %btn-last-child;
+
+      &.active {
+        @extend %active;
+      }
+      &.pressed {
+        @include lighten-clr($clr-orange);
+      }
     }
   }
 }
@@ -48,11 +75,38 @@ $clr-orange: #f09a37;
   @extend %btn-last-child;
 
   &.active {
-    @extend .active;
+    @extend %active;
+  }
+  &.pressed {
+    @include lighten-clr($clr-orange);
   }
 }
-.btn-symbol {
-  font-family: 'Times New Roman', sans-serif;
-  font-weight: 600;
-  font-size: 1.6rem;
+
+// Customize unique buttons
+
+// Customize +/- button
+.row:first-child {
+  .btn:nth-child(2) {
+    font-family: 'Times New Roman', sans-serif;
+    font-weight: 600;
+    font-size: $btn-font-size * 1.067;
+  }
+}
+// Customize 0 button
+.row:last-child {
+  .btn:first-child {
+    width: $btn-size * 2 + $btn-margin * 2;
+    padding-left: $btn-size / 2 - 0.53rem;
+    text-align: left;
+  }
+}
+// Customize memory buttons
+.row:nth-child(2) {
+  .btn {
+    font-size: $btn-font-size * 0.8;
+
+    &:last-child {
+      font-size: $btn-font-size * 0.8;
+    }
+  }
 }

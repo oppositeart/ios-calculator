@@ -6,6 +6,12 @@
   font-style: normal;
 }
 @font-face {
+  font-family: 'SF UI Text';
+  src: local('SF UI Text'), url(../fonts/SFUIText-Regular.woff) format('woff');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
   font-family: 'SF UI Display';
   src: local('SF UI Display'), url(../fonts/SFUIDisplay-Light.woff) format('woff');
   font-weight: 300;

@@ -80,18 +80,18 @@ export const btnComma: OperationBtnObjType = {
     action: null
 }
 export const btnMemAdd: OperationBtnObjType = {
-    name: 'm+',
+    name: 'M+',
     action: actionMemAddAC()
 }
 export const btnMemSubtract: OperationBtnObjType = {
-    name: 'm-',
+    name: 'M-',
     action: actionMemSubtractAC()
 }
 export const btnMemRead: OperationBtnObjType = {
-    name: 'mr',
+    name: 'MR',
     action: actionMemReadAC()
 }
 export const btnMemClear: OperationBtnObjType = {
-    name: 'mc',
+    name: 'MC',
     action: actionMemClearAC()
 }

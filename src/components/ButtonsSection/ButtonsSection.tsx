@@ -1,5 +1,6 @@
 import React from 'react';
 import s from './ButtonsSection.module.scss';
+import Button from './Button';
 
 type PropsType = {
     buttons: any,
@@ -8,26 +9,19 @@ type PropsType = {
 }
 
 const ButtonsSection: React.FC<PropsType> = ({buttons, handleClick}) => {
-    const handlePress = (e: React.MouseEvent) => {
-
-    }
-
     const sortEl = (btnsObj: any, numInRow: number): JSX.Element[] => {
         const container:JSX.Element[] = [];
         let row:JSX.Element[] = [];
         const keysArr: string[] = Object.keys(btnsObj);
         keysArr.forEach((key: string, index: number, arr): void => {
             const i = index + 1;
-            const cls = [s.btn]
-            buttons[key].isPressed && cls.push(s.active);
-            console.log(cls.join(' '));
             row.push(
-                <button className={cls.join(' ')}
-                        key={buttons[key].name}
-                        onClick={() => handleClick(buttons[key].action)}
-                        onMouseDown={handlePress}>
-                    {buttons[key].name}
-                </button>
+                <Button key={buttons[key].name}
+                        name={buttons[key].name}
+                        isActive={buttons[key].isPressed}
+                        action={buttons[key].action}
+                        handleClick={handleClick}
+                />
             );
             if (i % numInRow === 0 || i === arr.length) {
                 container.push(
@@ -40,7 +34,7 @@ const ButtonsSection: React.FC<PropsType> = ({buttons, handleClick}) => {
     }
 
     return (
-        <div className={s.container}>
+        <div>
             {sortEl(buttons, 4)}
         </div>
     );
