@@ -26,7 +26,7 @@ const Button: React.FC<PropsType> = ({name, isActive, action, handleClick}) => {
                 onMouseUp={handleMouseUp}
                 onMouseLeave={handleMouseUp}
         >
-            <span>{name}</span>
+            {name}
         </button>
     );
 }

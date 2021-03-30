@@ -2,7 +2,6 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {GlobalStateType} from '../../store/store';
 import Calculator from './Calculator';
-import {playClickAudio} from '../../audio/audioController';
 
 type StatePropsType = {
     output: string,
@@ -20,7 +19,6 @@ type PropsType = StatePropsType & DispatchPropsType & OwnPropsType;
 const CalculatorContainer: React.FC<PropsType> = ({dispatcherFn, ...props}) => {
     const handleClick = (action: () => {}) => {
         dispatcherFn(action);
-        playClickAudio();
     }
 
     return (
