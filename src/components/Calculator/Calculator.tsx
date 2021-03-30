@@ -37,7 +37,7 @@ const Calculator: React.FC<PropsType> = ({output, buttons, handleClick}) => {
        }
     }
     const preventZoom = (event: any) => {
-        if (event.scale !== 1) { event.preventDefault(); }
+        event.preventDefault();
     }
 
     return (
