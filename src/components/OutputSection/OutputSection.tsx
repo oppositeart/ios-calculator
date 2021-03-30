@@ -17,26 +17,23 @@ const OutputSection: React.FC<PropsType> = ({output}) => {
     }
 
     const [value, setValue] = useState<string>('0');
-    const [fontSize, setFontSize] = useState<number>(1);
     const ref = useRef<HTMLElement>(null);
 
     // Change font-size if string length > 5
     useEffect(() => {
         // First change font-size, then send value to component
         const el = ref.current;
-        let fSize = fontSize;
+        let fontSize = 1;
         if (el) {
-            if (output.length > 5) {
-                for (let i: number = 0; i < output.length - 5; i++) {
-                    fSize = fontSize - (fontSize * fontSize * 0.15);
-                    el.style.fontSize = fSize + 'em';
+            if (output.length > 6) {
+                for (let i: number = 0; i < output.length - 6; i++) {
+                    fontSize -= (fontSize * fontSize * 0.15);
+                    el.style.fontSize = fontSize + 'em';
                 }
             } else {
-                fSize = 1;
-                el.style.fontSize = fSize + 'em';
+                el.style.fontSize = fontSize + 'em';
             }
         }
-        setFontSize(fSize);
         // Set output as value to show
         setValue(output);
     }, [output]);
