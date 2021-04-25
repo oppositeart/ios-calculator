@@ -55,11 +55,15 @@ const numToString = (num: number): string => {
 const changeValue = (state: InitialStateType, action: ActionNumBtnPressACType): InitialStateType => {
     const valueStr: string = action.value.toString();
     // Prevent adding more then one commaSymbol
-    if (state.stringValue.indexOf(commaSymbol) > -1 && valueStr === commaSymbol) {
+    if ((state.stringValue.indexOf(commaSymbol) > -1 && valueStr === commaSymbol)) {
         return state
     }
     let strValue;
     if (state.previousAction === action.type) {
+        // Prevent adding more then 9 symbols
+        if (state.stringValue.length > 8) {
+            return state;
+        }
         strValue = state.stringValue === '0' && valueStr !== commaSymbol
             ? strValue = valueStr
             : state.stringValue + valueStr
