@@ -5,7 +5,7 @@ import {Calculator} from './';
 
 type StatePropsType = {
     output: string,
-    buttons: {[x: string]: any}[]
+    btnArray: {[x: string]: any}[]
 }
 
 type DispatchPropsType = {
@@ -28,7 +28,7 @@ const CalculatorContainer: React.FC<PropsType> = ({dispatcherFn, ...props}) => {
 
 const mapStateToProps = (state: GlobalStateType): StatePropsType => ({
     output: state.mainReducer.stringValue,
-    buttons: state.btnReducer.buttonsArray,
+    btnArray: state.btnReducer.btnArray,
 })
 
 const mapDispatchToProps = (dispatch: any) => ({

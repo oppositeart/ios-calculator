@@ -3,15 +3,15 @@ import s from './ButtonsSection.module.scss';
 import Button from './Button';
 
 type PropsType = {
-    buttons: any,
+    btnArray: any,
     handleClick: (action: any) => void
 }
 
-const ButtonsSection: React.FC<PropsType> = ({buttons, handleClick}) => {
-    const sortEl = (btnsArr: {}[], numInRow: number): JSX.Element[] => {
+const ButtonsSection: React.FC<PropsType> = ({btnArray, handleClick}) => {
+    const sortEl = (elArray: {}[], numInRow: number): JSX.Element[] => {
         const container:JSX.Element[] = [];
         let row:JSX.Element[] = [];
-        btnsArr.forEach((el: any, index: number): void => {
+        elArray.forEach((el: any, index: number): void => {
             const i = index + 1;
             const objKey = Object.keys(el)[0];
             row.push(
@@ -22,7 +22,7 @@ const ButtonsSection: React.FC<PropsType> = ({buttons, handleClick}) => {
                         handleClick={handleClick}
                 />
             );
-            if (i % numInRow === 0 || i === btnsArr.length) {
+            if (i % numInRow === 0 || i === elArray.length) {
                 container.push(
                     <div className={s.row} key={i + el[objKey].name}>{row}</div>
                 );
@@ -34,7 +34,7 @@ const ButtonsSection: React.FC<PropsType> = ({buttons, handleClick}) => {
 
     return (
         <div>
-            {sortEl(buttons, 4)}
+            {sortEl(btnArray, 4)}
         </div>
     );
 }

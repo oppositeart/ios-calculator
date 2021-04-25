@@ -5,11 +5,11 @@ import {ButtonsSection} from '../ButtonsSection';
 
 type PropsType = {
     output: string,
-    buttons: {[x: string]: any},
+    btnArray: {[x: string]: any},
     handleClick: (action: () => {}) => void
 }
 
-const Calculator: React.FC<PropsType> = ({output, buttons, handleClick}) => {
+const Calculator: React.FC<PropsType> = ({output, btnArray, handleClick}) => {
     // Add resize listener
     useEffect(() => {
         window.addEventListener("resize", onResize);
@@ -44,7 +44,7 @@ const Calculator: React.FC<PropsType> = ({output, buttons, handleClick}) => {
         <div className={s.container}>
             <div className={s.content}>
                 <OutputSection output={output} />
-                <ButtonsSection buttons={buttons} handleClick={handleClick} />
+                <ButtonsSection btnArray={btnArray} handleClick={handleClick} />
             </div>
         </div>
     );
