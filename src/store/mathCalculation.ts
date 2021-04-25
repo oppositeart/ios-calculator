@@ -21,7 +21,8 @@ const mathCalculation = (values: ValueObjType[]): number => {
     for (let i: number = 1; i < values.length; i++) {
         result = mathOperations(result, values[i - 1].action, values[i].value);
     }
-    return result;
+    // If number is float remove unnecessary chars after comma
+    return Number.isInteger(result) ? result : Math.floor(result * 10000000) / 10000000;
 }
 
 export default mathCalculation;
