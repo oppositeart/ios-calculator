@@ -165,6 +165,7 @@ const actionClear = (state: InitialStateType): InitialStateType => {
             ...state,
             values: [],
             previousAction: ACTION_NUM_PRESS,
+            stringValue: '0',
             clearValueStage: 0
         }
     }
