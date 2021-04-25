@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import s from './Calculator.module.scss';
-import OutputSection from '../OutputSection/OutputSection';
-import ButtonsSection from '../ButtonsSection/ButtonsSection';
+import {OutputSection} from '../OutputSection';
+import {ButtonsSection} from '../ButtonsSection';
 
 type PropsType = {
     output: string,

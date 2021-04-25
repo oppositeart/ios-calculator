@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {GlobalStateType} from '../../store/store';
-import Calculator from './Calculator';
+import {Calculator} from './';
 
 type StatePropsType = {
     output: string,

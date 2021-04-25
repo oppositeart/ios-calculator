@@ -1,5 +1,5 @@
 import React from 'react';
-import CalculatorContainer from './components/Calculator/CalculatorContainer';
+import {CalculatorContainer} from './components/Calculator';
 import {Provider} from 'react-redux';
 import store from './store/store';
 
